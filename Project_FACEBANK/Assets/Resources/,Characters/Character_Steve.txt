@@ -1,0 +1,8 @@
+[Info]
+Steve Stevenson
+55
+Friend of Anna.
+
+[Dialog]
+Hi there.
+- Hello.

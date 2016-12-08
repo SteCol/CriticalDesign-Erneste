@@ -1,0 +1,14 @@
+[Info]
+Anna Davidson
+80
+Sister to Dave.
+
+[Dialog]
+1 Hi.
+2  Hello
+3   I need to ask you somthing.
+2  Hey
+3   How u doin?
+2  How are you?
+3   Doing alright, how are you?
+3   aThing
