@@ -11,7 +11,7 @@ public class Character  {
     public string info;
 
     [Header("Dialog")]
-    public string Question1;
+    public Question question;
 
 
 

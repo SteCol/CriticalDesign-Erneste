@@ -66,17 +66,20 @@ public class GetCharacters : MonoBehaviour
                     print("Found [Dialog] for: " + splitString[j + 1]);
                     foreach (string d in splitString) {
                         if (d.Contains("1")) {
-                            print(d);
+                            character[i].question.Q = d;
+                            if (d.Contains("2"))
+                            {
+                                character[i].question.answers.Add(new Answer());
+                                if (d.Contains("3"))
+                                {
+                                    print(d);
+                                }
+
+                            }
                         }
 
-                        if (d.Contains("2"))
-                        {
-                            print(d);
-                        }
-                        if (d.Contains("3"))
-                        {
-                            print(d);
-                        }
+                        
+                        
 
 
 
