@@ -7,15 +7,15 @@ using UnityEngine.UI;
 public class HideShow : MonoBehaviour {
 
 
-    public Vector3 startPos;
-    public Vector3 stopPos;
+    public Vector3 showPos;
+    public Vector3 hiddenPos;
     public float slerpValue;
     public float slerpSpeed;
 
     public GameObject enableThis;
 
     public bool show;
-    public bool getFirstPos, getSecondPos;
+    public bool getShowPos, getHidePos;
 
     public float value;
 
@@ -62,15 +62,15 @@ public class HideShow : MonoBehaviour {
 
         
         
-        if (show && slerpValue < 1)
+        if (!show && slerpValue < 1)
         {
             slerpValue = slerpValue + slerpSpeed * Time.deltaTime;
-            transform.position = Vector3.Slerp(startPos, stopPos, slerpValue);
+            transform.position = Vector3.Slerp(showPos, hiddenPos, slerpValue);
 
         }
-        else if (!show && slerpValue > 0){
+        else if (show && slerpValue > 0){
             slerpValue = slerpValue - slerpSpeed * Time.deltaTime;
-            transform.position = Vector3.Lerp(startPos, stopPos, slerpValue);
+            transform.position = Vector3.Lerp(showPos, hiddenPos, slerpValue);
 
         }
         
@@ -82,15 +82,15 @@ public class HideShow : MonoBehaviour {
         //}
 
 
-        if (getFirstPos)
+        if (getShowPos)
         {
-            startPos = this.transform.position;
-            getFirstPos = false;
+            showPos = this.transform.position;
+            getShowPos = false;
         }
 
-        if (getSecondPos) {
-            stopPos = this.transform.position;
-            getSecondPos = false;
+        if (getHidePos) {
+            hiddenPos = this.transform.position;
+            getHidePos = false;
         }
     }
 
@@ -110,11 +110,11 @@ public class HideShow : MonoBehaviour {
         //Horizontal
         if (applyXTransform)
         {
-            if (this.transform.position.x < startPos.x)
+            if (this.transform.position.x < showPos.x)
             {
                 this.transform.Translate(slerpSpeed * Time.deltaTime, 0, 0);
             }
-            else if (this.transform.position.x > startPos.x)
+            else if (this.transform.position.x > showPos.x)
             {
                 this.transform.Translate(-slerpSpeed * Time.deltaTime, 0, 0);
             }
@@ -123,11 +123,11 @@ public class HideShow : MonoBehaviour {
         //Vertical
         if (applyYTransform)
         {
-            if (this.transform.position.y < startPos.y)
+            if (this.transform.position.y < showPos.y)
             {
                 this.transform.Translate(0, slerpSpeed * Time.deltaTime, 0);
             }
-            else if (this.transform.position.y > startPos.y)
+            else if (this.transform.position.y > showPos.y)
             {
                 this.transform.Translate(0, -slerpSpeed * Time.deltaTime, 0);
             }
@@ -136,11 +136,11 @@ public class HideShow : MonoBehaviour {
         //Depth
         if (applyZTransform)
         {
-            if (this.transform.position.z < startPos.z)
+            if (this.transform.position.z < showPos.z)
             {
                 this.transform.Translate(0, 0, slerpSpeed * Time.deltaTime);
             }
-            else if (this.transform.position.z > startPos.z)
+            else if (this.transform.position.z > showPos.z)
             {
                 this.transform.Translate(0, 0, -slerpSpeed * Time.deltaTime);
             }
@@ -153,11 +153,11 @@ public class HideShow : MonoBehaviour {
         //Horizontal
         if (applyXTransform)
         {
-            if (this.transform.position.x < stopPos.x)
+            if (this.transform.position.x < hiddenPos.x)
             {
                 this.transform.Translate(slerpSpeed * Time.deltaTime, 0, 0);
             }
-            else if (this.transform.position.x > stopPos.x)
+            else if (this.transform.position.x > hiddenPos.x)
             {
                 this.transform.Translate(-slerpSpeed * Time.deltaTime, 0, 0);
             }
@@ -166,11 +166,11 @@ public class HideShow : MonoBehaviour {
         //Vertical
         if (applyYTransform)
         {
-            if (this.transform.position.y < stopPos.y)
+            if (this.transform.position.y < hiddenPos.y)
             {
                 this.transform.Translate(0, slerpSpeed * Time.deltaTime, 0);
             }
-            else if (this.transform.position.y > stopPos.y)
+            else if (this.transform.position.y > hiddenPos.y)
             {
                 this.transform.Translate(0, -slerpSpeed * Time.deltaTime, 0);
             }
@@ -179,11 +179,11 @@ public class HideShow : MonoBehaviour {
         //Depth
         if (applyZTransform)
         {
-            if (this.transform.position.z < stopPos.z)
+            if (this.transform.position.z < hiddenPos.z)
             {
                 this.transform.Translate(0, 0, slerpSpeed * Time.deltaTime);
             }
-            else if (this.transform.position.z > stopPos.z)
+            else if (this.transform.position.z > hiddenPos.z)
             {
                 this.transform.Translate(0, 0, -slerpSpeed * Time.deltaTime);
             }
