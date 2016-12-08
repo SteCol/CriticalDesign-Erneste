@@ -18,6 +18,8 @@ public class NotificationManager : MonoBehaviour
     public float spacing;
     private float oldSpacing;
     public bool debug;
+    public Vector2 offset;
+    private Vector2 oldOffset;
 
     // Use this for initialization
     void Start()
@@ -32,6 +34,11 @@ public class NotificationManager : MonoBehaviour
         if (spacing != oldSpacing) {
             UpdateFeed();
             oldSpacing = spacing;
+        }
+
+        if (offset != oldOffset) {
+            UpdateFeed();
+            oldOffset = offset;
         }
 
         if (updateFeed) {
@@ -66,7 +73,7 @@ public class NotificationManager : MonoBehaviour
             clone.GetComponent<Bubble>().profilePic.sprite = notifications[i].profilePic;
 
             clone.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-            clone.GetComponent<RectTransform>().transform.position = new Vector3(feed.transform.position.x + (feed.transform.position.x / 2), -spacing + feed.transform.position.y - (i * spacing), 0);
+            clone.GetComponent<RectTransform>().transform.position = new Vector3(feed.transform.position.x + (feed.transform.position.x / 2) + offset.x, - offset.y + feed.transform.position.y - (i * spacing), 0);
             //clone.transform.SetParent(feed.transform);
 
             clone.name = "Notification " + i.ToString() + ": " + notifications[i].title;
