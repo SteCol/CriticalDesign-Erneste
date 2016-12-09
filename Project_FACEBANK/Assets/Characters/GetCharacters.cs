@@ -15,7 +15,7 @@ public class GetCharacters : MonoBehaviour
     public List<TextAsset> characterFiles;
     public List<Character> character;
 
-    
+
 
     // Use this for initialization
     void Start()
@@ -45,59 +45,50 @@ public class GetCharacters : MonoBehaviour
 
             character.Add(new Character());
             string[] splitString = characterFiles[i].text.Split(new string[] { "\n" }, StringSplitOptions.None);
-            print(splitString.Length.ToString());
-            
-            
-            
+            print("Amount of lines in character doc: " + splitString.Length.ToString());
+
+
+
 
             for (int j = 0; j < splitString.Length; j++)
             {
                 //print(splitString[i]);
                 if (splitString[j].Contains("[Info]"))
                 {
-                    //print("Found [Info] for: " + splitString[j+1]);
-                    character[i].name = splitString[j+1];
-                    character[i].value = splitString[j+2];
-                    character[i].info = splitString[j+3];
+                    print("Found [Info] for: " + splitString[j+1]);
+                    character[i].name = splitString[j + 1];
+                    character[i].value = splitString[j + 2];
+                    character[i].info = splitString[j + 3];
                 }
 
                 if (splitString[j].Contains("[Dialog]"))
                 {
                     print("Found [Dialog] for: " + splitString[j + 1]);
-                    foreach (string d in splitString) {
-                        if (d.Contains("1")) {
-                            character[i].question.Q = d;
-                            if (d.Contains("2"))
+
+                    for (int q = 0; q < splitString.Length; q++) {
+                        if (splitString[q].Contains("1"))
+                        {
+                            print("Found Question: " + splitString[q]);
+                            character[i].questions.Add(new Question(splitString[q],false));
+
+                            for (int a = 0; a < character[i].questions.Count; a++)
                             {
-                                character[i].question.answers.Add(new Answer());
-                                if (d.Contains("3"))
+                                if (character[i].questions[a].Q.Contains(splitString[q]))
                                 {
-                                    print(d);
+                                    for (int k = 0; k < 5; k++)
+                                    if (splitString.Length < k && splitString[q + k].Contains("2"))
+                                    {
+                                        print("Found Answer: " + splitString[q+k]);
+                                        //character[i].questions[a].answers.Add(new Answer(splitString[q+1], 0));
+
+                                    }
                                 }
-
-                            }
+                            } 
                         }
-
-                        
-                        
-
-
-
-
                     }
                 }
             }
-
         }
-
-
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
+

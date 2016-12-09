@@ -11,7 +11,7 @@ public class Character  {
     public string info;
 
     [Header("Dialog")]
-    public Question question;
+    public List<Question> questions;
 
 
 

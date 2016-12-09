@@ -5,6 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public class Answer {
     public string A;
-    public Question nextQuestion;
+    public int nextQuestion;
+
+    public Answer(string _A, int _nextQuestion) {
+        A = _A;
+        nextQuestion = _nextQuestion;
+    }
 	
 }
