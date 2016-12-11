@@ -7,9 +7,11 @@ public class Answer {
     public string A;
     public int nextQuestion;
 
+    
     public Answer(string _A, int _nextQuestion) {
         A = _A;
         nextQuestion = _nextQuestion;
     }
+    
 	
 }

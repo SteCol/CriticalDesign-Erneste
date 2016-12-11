@@ -6,7 +6,7 @@ using UnityEngine;
 public class Question {
     public string Q;
     public bool hasBeenAnswered;
-    public List<Answer> answers;
+    public List<Answer> answers = new List<Answer>();
 
     public Question(string _Q, bool _hasBeenAnswered)
     {

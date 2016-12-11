@@ -11,7 +11,20 @@ public class Character  {
     public string info;
 
     [Header("Dialog")]
-    public List<Question> questions;
+    public List<Question> questions = new List<Question>();
+
+    /*
+    public Character()
+    {
+    }
+
+
+    public Character(string _name, string _value, string info) {
+        name = _name;
+        value = _value;
+        info = _value;
+    }
+    */
 
 
 

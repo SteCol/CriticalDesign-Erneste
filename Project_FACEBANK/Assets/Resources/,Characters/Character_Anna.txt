@@ -4,13 +4,15 @@ Anna Davidson
 Sister to Dave.
 
 [Dialog]
-1 Hi.
-2  Hello
-2  Hey
-3  How u doin?
-1 I need to ask you somthing.
+Q1 Hi.
+A1.1  Hello! [Q2]
+A1.2  Hey [Q2]
+A1.3  How u doin? [Q2]
 
+Q2 I need to ask you somthing.
+A2.1 WHat's up? 
+A2.2 Can it wait, I'm busy...
 
-1 How are you?
-2  Doing alright, how are you?
-3   aThing
+Q3 How are you?
+A3.1  Doing alright, how are you?
+A3.2   aThing
