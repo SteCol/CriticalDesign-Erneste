@@ -4,15 +4,28 @@ Anna Davidson
 Sister to Dave.
 
 [Dialog]
-Q1 Hi.
-A1.1  Hello! [Q2]
-A1.2  Hey [Q2]
-A1.3  How u doin? [Q2]
++Q1 Hi.
++A1.1  Hello! [Q2]
++A1.2  Hey [Q2]
++A1.3  How u doin? [Q2]
 
-Q2 I need to ask you somthing.
-A2.1 WHat's up? 
-A2.2 Can it wait, I'm busy...
++Q2 I want to ask you something... [FollowThrough [Q5]]
 
-Q3 How are you?
-A3.1  Doing alright, how are you?
-A3.2   aThing
+
+
++Q3 like WAY personal.
++A3.1 WHat's up? 
++A3.2 Can it wait, I'm busy...
+
++Q4 How are you?
++A4.1  Doing alright, how are you?
++A4.2  aThing
+
++Q5 Something personal... [FollowThrough [Q3]]
+
+[StatusUpdates]
++SU1 OMG like this chainsaw is soooooo cure I want it.
+
++SU2 Oh come on, how can this be so UUUUUUUUUHRG i can't evennn.
+
++SU3 'Anna liked this page'

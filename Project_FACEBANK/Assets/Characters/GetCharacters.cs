@@ -8,8 +8,9 @@ using System.Linq;
 
 public class GetCharacters : MonoBehaviour
 {
-    [Header("A Whole Bunch Of Lists")]
+    public bool GetCharactersComplete = false;
 
+    [Header("A Whole Bunch Of Lists")]
     public string[] allPaths;
     public List<string> paths;
     //public List<string> words;
@@ -26,7 +27,6 @@ public class GetCharacters : MonoBehaviour
     public bool debug;
 
     [Header("Final CHaracters List")]
-
     public List<Character> characters = new List<Character>();
 
 
@@ -35,7 +35,6 @@ public class GetCharacters : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
         //Gets the character.txt files.
         if (getFiles)
             GetFiles();
@@ -45,6 +44,9 @@ public class GetCharacters : MonoBehaviour
         if (getFiles)
             GetCharacter();
 
+        CheckFollowThrough();
+
+        GetCharactersComplete = true;
 
     }
 
@@ -58,21 +60,22 @@ public class GetCharacters : MonoBehaviour
             if (p.Contains("Character_") && !p.Contains("meta")) //Narrows down ALL the files to only the Character.txt files.
             {
                 paths.Add(p);
-                print(p);
+                Debug(p);
             }
         }
     }
+
 
     public void GetCharacter()
     {
         for (int c = 0; c < paths.Count; c++) //Amount of paths = amount of files found = amount of characters.
         {
-            print("_________________________________________________________________________________________________");
-            print("Start of Loop: " + c);
+            Debug("_________________________________________________________________________________________________");
+            Debug("Start of Loop: " + c);
 
             //Gets the file names from the paths and reformats them to be readable by Resource.Load.
             string output = paths[c].Substring(paths[c].IndexOf(',') + 1); //to get a 'Characters/Characters.txt path' (to be ready by Resoures.Load) I placed a ',' (not used in any other path).
-            print(output);
+            Debug(output);
             output = output.Substring(0, output.Length - 4); //Removes '.txt'
             //print(output);
 
@@ -80,26 +83,26 @@ public class GetCharacters : MonoBehaviour
 
             characters.Add(new Character()); //For each Characters.txt file found make a new entry in the list.
             string[] splitString = characterFiles[c].text.Split(new string[] { "\n" }, StringSplitOptions.None); //Get each seperate line from the Characters.txt files.
-            print("Amount of lines in " + characterFiles[c].name + "'s file: " + splitString.Length.ToString());
+            Debug("Amount of lines in " + characterFiles[c].name + "'s file: " + splitString.Length.ToString());
 
 
             for (int s = 0; s < splitString.Length; s++) // 's' = amount of sentences.
             {
-                //print("Line " + s + ": " + splitString[s]);
-                Debug("Line " + s + ": " + splitString[s]);
-                ;
+                //Debug("Line " + s + ": " + splitString[s]);
+
                 //This box gets all the info per line. Might change later.
-
-
                 if (getInfo && splitString[s].Contains("[Info]"))
                 {
                     Debug("Found [Info] for: " + splitString[s + 1]);
+
                     Level1Debug("Found name: " + splitString[s + 1]);
                     characters[c].name = splitString[s + 1];
                     Level2Debug("Name for Character " + c + " (" + characters[c].name + ") " + "is now: " + characters[c].name);
+
                     Level1Debug("Found value: " + splitString[s + 2]);
                     characters[c].value = splitString[s + 2];
                     Level2Debug("Value for Character " + c + " (" + characters[c].name + ") " + "is now: " + characters[c].value);
+
                     Level1Debug("Found info: " + splitString[s + 3]);
                     characters[c].info = splitString[s + 3];
                     Level2Debug("Info for Character " + c + " (" + characters[c].name + ") " + "is now: " + characters[c].info);
@@ -116,47 +119,95 @@ public class GetCharacters : MonoBehaviour
                     {
                         for (int q = 0; q < 20; q++) //Amount of questions to check.
                         {
-                            if (splitString[r].Contains("Q" + q.ToString()))
+                            if (splitString[r].Contains("+Q" + q.ToString()))
                             {
-                                Level2Debug("Adding question '" + splitString[r] + "' to " + characters[c].name);
                                 characters[c].questions.Add(new Question(splitString[r], false)); //Adds a question to the list with the string d and a 'answered' value of false. So, an unaswered question.
                                 Level2Debug("Added question '" + splitString[r] + "' to " + characters[c].name);
+                                
+
                                 for (int a = 1; a < 10; a++) //Amount of answers to check.
                                 {
 
-                                    //print("------ Checking for answer with " + "A" + q.ToString() + "." + a.ToString() + " on line " + (r + a).ToString());
+                                    
+
                                     if (splitString.Length > (r + a))
                                     {
-                                        if (splitString[r + a].Contains("A" + q.ToString() + "." + a.ToString()))
+                                        if (splitString[r + a].Contains("+A" + q.ToString() + "." + a.ToString())) //CHeck is the line it's checking has an answer
                                         {
-                                            Level3Debug("Found answer '" + splitString[r + a] + "' to " + characters[c].name + " on line " + (r + a).ToString());
-                                            Level3Debug("Adding answer '" + splitString[r + a] + "' to " + characters[c].name + " to question " + (q - 1));
-                                            //characters[c].questions[q].answers.Add(new Answer());
 
-                                            characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], 0));
+                                            if (splitString[r + a].Contains("[Q")) //Checks if the dialoug has a [Qx] (next dialoug) identifier. If not it'll give 666 value (I doubt we'll ever have more than 666 questions)
+                                                                                   //If the value will be 666 there won't be a next dialog or a timer will start for when you recieve the next chat message.
+                                            {
+                                                //Get the int value out of the [Qx] identifier
+                                                string nextQ = splitString[r + a].Substring(splitString[r + a].IndexOf('[') + 2);
+                                                string[] nextQArray = nextQ.Split(']');
+                                                Level4Debug("Found value for NextQuestion for " + splitString[r + a] + nextQArray[0]);
+
+                                                characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], int.Parse(nextQArray[0])));
+                                            }
+                                            else {
+                                                characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], 666));
+                                            }
+
                                             Level3Debug("Added answer '" + splitString[r + a] + "' to " + characters[c].name);
-
-
                                         }
-                                        else {
-                                            Level3Debug("No answer found.");
-
-                                        }
-                                    }
-                                    else {
-                                        //print("--------- Past end of file.");
                                     }
                                 }
-
                             }
                         }
+                    }
+                }
 
+                if (getStatusUpdates && splitString[s].Contains("[StatusUpdates]"))
+                {
+                    Debug("Found " + splitString[s]);
+                    for (int i = 0; i < 20; i++) //amount of thimes to check for status updates;
+                    {
+                        if (splitString.Length > (s + i))
 
+                            if (splitString[s + i].Contains("+SU"))
+                            {
+                                characters[c].statusUpdates.Add(new StatusUpdate(splitString[s + i]));
+                            }
                     }
                 }
             }
         }
     }
+
+    public void CheckFollowThrough() {
+        Debug("________________________________________________________________________________");
+        Debug("CheckFollowthrough");
+
+        for (int c = 0; c < characters.Count; c++)
+        {
+            for (int q = 0; q < characters[c].questions.Count; q++)
+            {
+                Debug("Checking: " + characters[c].questions[q].Q);
+                if (characters[c].questions[q].Q.Contains("[FollowThrough [Q"))
+                {
+                    //string nextQ = characters[c].questions[q].Q.Substring(characters[c].questions[q].Q.IndexOf(']') + 2);
+                    string[] nextQArray = characters[c].questions[q].Q.Split(']');
+                    for (int n = 0; n < nextQArray.Length; n++)
+                    {
+                        Level1Debug("nextQArray pos " + n + ": " + nextQArray[n]);
+                    }
+
+                    Level2Debug(nextQArray[0].Substring(nextQArray[0].LastIndexOf('[') + 2));
+
+                    Level4Debug("Found FollowThrough value for " + characters[c].questions[q].Q + " in  " + characters[c].name + ": " + nextQArray[0].Substring(nextQArray[0].LastIndexOf('[') + 2));
+
+
+                    characters[c].questions[q].followThrough = int.Parse(nextQArray[0].Substring(nextQArray[0].LastIndexOf('[') + 2));
+                }
+                else {
+                    characters[c].questions[q].followThrough = 666;
+                }
+            }
+        }
+    }
+
+
     public void Debug(string message)
     {
         if (debug)
@@ -179,6 +230,12 @@ public class GetCharacters : MonoBehaviour
     {
         if (debug)
             print("        |--- " + message);
+    }
+
+    public void Level4Debug(string message)
+    {
+        if (debug)
+            print("            |--- " + message);
     }
 
 

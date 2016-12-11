@@ -13,6 +13,10 @@ public class Character  {
     [Header("Dialog")]
     public List<Question> questions = new List<Question>();
 
+    [Header("StatusUpdates")]
+    public List<StatusUpdate> statusUpdates = new List<StatusUpdate>();
+
+
     /*
     public Character()
     {
