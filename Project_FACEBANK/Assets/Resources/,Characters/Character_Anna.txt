@@ -11,8 +11,6 @@ Sister to Dave.
 
 +Q2 I want to ask you something... [FollowThrough [Q5]]
 
-
-
 +Q3 like WAY personal.
 +A3.1 WHat's up? 
 +A3.2 Can it wait, I'm busy...

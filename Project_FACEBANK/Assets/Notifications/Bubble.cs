@@ -9,4 +9,5 @@ public class Bubble : MonoBehaviour {
     public Text title;
     public Text content;
     public Image profilePic;
+    public Text time;
 }

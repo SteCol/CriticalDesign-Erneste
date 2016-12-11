@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,5 +11,17 @@ public class Notification  {
 
     public string content;
     public bool show;
+    public string time;
     public Sprite profilePic;
+
+    public Notification()
+    {
+
+    }
+
+    public Notification(string _title, string _content, DateTime _time) {
+        title = _title;
+        content = _content;
+        time = _time.ToString();
+    }
 }

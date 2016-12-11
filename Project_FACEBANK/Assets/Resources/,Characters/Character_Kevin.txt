@@ -1,0 +1,11 @@
+[Info]
+Kevin Bonkers
+55
+No one's friend.
+
+[Dialog]
++Q1 Hi there. 
++A1.1 Hello.
+
+[StatusUpdates]
++SU1 I want some friends...

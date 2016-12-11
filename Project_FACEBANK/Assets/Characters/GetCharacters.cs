@@ -6,6 +6,7 @@ using System.IO;
 using System;
 using System.Linq;
 
+//[ExecuteInEditMode]
 public class GetCharacters : MonoBehaviour
 {
     public bool GetCharactersComplete = false;
@@ -57,7 +58,7 @@ public class GetCharacters : MonoBehaviour
 
         foreach (string p in allPaths)
         {
-            if (p.Contains("Character_") && !p.Contains("meta")) //Narrows down ALL the files to only the Character.txt files.
+            if (p.Contains("Character_") && p.Contains(".txt") && !p.Contains("meta")) //Narrows down ALL the files to only the Character.txt files.
             {
                 paths.Add(p);
                 Debug(p);

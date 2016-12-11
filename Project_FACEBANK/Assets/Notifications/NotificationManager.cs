@@ -8,9 +8,9 @@ public class NotificationManager : MonoBehaviour
 {
     [Header("Generating Content")]
     public GameObject feedBubble;
-    public List<Notification> notifications;
+    public List<Notification> notifications ;
     public List <GameObject> StatusUpdates;
-    public GameObject feed;
+    public GameObject feedContent;
     GameObject[] StatusUpdatesArray;
 
     [Header("Generating Layout")]
@@ -67,13 +67,15 @@ public class NotificationManager : MonoBehaviour
         for (int i = 0; i < notifications.Count; i++)
         {
             GameObject clone = Instantiate(feedBubble, transform.position, transform.rotation);
-            clone.transform.SetParent(feed.transform);
+            clone.transform.SetParent(feedContent.transform);
             clone.GetComponent<Bubble>().title.text = notifications[i].title;
             clone.GetComponent<Bubble>().content.text = notifications[i].content;
             clone.GetComponent<Bubble>().profilePic.sprite = notifications[i].profilePic;
+            clone.GetComponent<Bubble>().time.text = notifications[i].time;
+
 
             clone.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-            clone.GetComponent<RectTransform>().transform.position = new Vector3(feed.transform.position.x + (feed.transform.position.x / 2) + offset.x, - offset.y + feed.transform.position.y - (i * spacing), 0);
+            clone.GetComponent<RectTransform>().transform.position = new Vector3(feedContent.transform.position.x + (feedContent.transform.position.x / 2) + offset.x, - offset.y + feedContent.transform.position.y - (i * spacing), 0);
             //clone.transform.SetParent(feed.transform);
 
             clone.name = "Notification " + i.ToString() + ": " + notifications[i].title;

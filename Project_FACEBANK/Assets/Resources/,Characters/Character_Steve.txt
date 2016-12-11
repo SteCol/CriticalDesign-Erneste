@@ -4,5 +4,10 @@ Steve Stevenson
 Friend of Anna.
 
 [Dialog]
-Hi there.
-- Hello.
++Q1 Hi there. 
++A1.1 Hello.
+
+[StatusUpdates]
++SU1 I hate Anna.
+
++SU1 I hate Dave too.
