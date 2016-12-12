@@ -19,9 +19,10 @@ public class Notification  {
 
     }
 
-    public Notification(string _title, string _content, DateTime _time) {
+    public Notification(string _title, string _content, DateTime _time, Sprite _profilePic) {
         title = _title;
         content = _content;
         time = _time.ToString();
+        profilePic = _profilePic;
     }
 }

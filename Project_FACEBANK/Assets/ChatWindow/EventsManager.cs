@@ -59,7 +59,7 @@ public class EventsManager : MonoBehaviour {
             {
                 if (getCharacters.characters[c].name.Contains(characterName) && getCharacters.characters[c].statusUpdates[su].content.Contains(statusUpdate)) {
                     print(getCharacters.characters[c].name +  " just updated their status: " + getCharacters.characters[c].statusUpdates[su].content + " at " + System.DateTime.Now.ToString());
-                    notificationManager.notifications.Add(new Notification(getCharacters.characters[c].name, getCharacters.characters[c].statusUpdates[su].content, System.DateTime.Now));
+                    notificationManager.notifications.Add(new Notification(getCharacters.characters[c].name, getCharacters.characters[c].statusUpdates[su].content, System.DateTime.Now, getCharacters.characters[c].profilePic));
                 }
             }
         }

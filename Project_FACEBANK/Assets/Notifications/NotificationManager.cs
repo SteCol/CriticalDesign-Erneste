@@ -71,6 +71,9 @@ public class NotificationManager : MonoBehaviour
             clone.GetComponent<Bubble>().title.text = notifications[i].title;
             clone.GetComponent<Bubble>().content.text = notifications[i].content;
             clone.GetComponent<Bubble>().profilePic.sprite = notifications[i].profilePic;
+            
+
+
             clone.GetComponent<Bubble>().time.text = notifications[i].time;
 
 
