@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChatBubble : MonoBehaviour {
+public class ChatManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

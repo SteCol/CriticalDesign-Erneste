@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class NotificationManager : MonoBehaviour
 {
+    public Canvas canvas;
+
     [Header("Generating Content")]
     public GameObject feedBubble;
     public List<Notification> notifications ;
@@ -71,16 +73,9 @@ public class NotificationManager : MonoBehaviour
             clone.GetComponent<Bubble>().title.text = notifications[i].title;
             clone.GetComponent<Bubble>().content.text = notifications[i].content;
             clone.GetComponent<Bubble>().profilePic.sprite = notifications[i].profilePic;
-            
-
-
             clone.GetComponent<Bubble>().time.text = notifications[i].time;
-
-
             clone.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-            clone.GetComponent<RectTransform>().transform.position = new Vector3(feedContent.transform.position.x + (feedContent.transform.position.x / 2) + offset.x, - offset.y + feedContent.transform.position.y - (i * spacing), 0);
-            //clone.transform.SetParent(feed.transform);
-
+            clone.GetComponent<RectTransform>().transform.position = new Vector3(feedContent.transform.position.x + (((feedContent.GetComponent<RectTransform>().rect.width * canvas.scaleFactor) / 2)) + offset.x, - offset.y + feedContent.transform.position.y - (i * spacing), 0);
             clone.name = "Notification " + i.ToString() + ": " + notifications[i].title;
             StatusUpdates.Add(clone);
         }

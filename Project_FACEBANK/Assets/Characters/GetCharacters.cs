@@ -40,6 +40,9 @@ public class GetCharacters : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+
+        Debug("==========GETCHARACTERS START=============");
+
         //Gets the character.txt files.
         if (getFiles)
             GetFiles();
@@ -49,13 +52,16 @@ public class GetCharacters : MonoBehaviour
         if (getFiles)
             GetCharacter();
 
+        //Get the profile pictures.
         if (getProfilePic)
             GetProfilePic();
 
         CheckFollowThrough();
 
-
+        Debug("==========GETCHARACTERS END=============");
         GetCharactersComplete = true;
+
+
 
     }
 
