@@ -11,6 +11,11 @@ public class Character  {
     public string value;
     public string info;
 
+    [Header("Friends")]
+    //public List<Friend> friends = new List<Friend>();
+    public List<string> friends = new List<string>();
+
+
     [Header("Dialog")]
     public List<Question> questions = new List<Question>();
 

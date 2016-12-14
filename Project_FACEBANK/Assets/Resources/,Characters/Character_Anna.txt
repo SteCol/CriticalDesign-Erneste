@@ -3,6 +3,10 @@ Anna Davidson
 80
 Sister to Dave.
 
+[Friends]
++F Kevin
++F Dave
+
 [Dialog]
 +Q1 Hi.
 +A1.1  Hello! [Q2]
@@ -22,8 +26,8 @@ Sister to Dave.
 +Q5 Something personal... [FollowThrough [Q3]]
 
 [StatusUpdates]
-+SU1 OMG like this chainsaw is soooooo cure I want it.
++SU OMG like this chainsaw is soooooo cure I want it.
 
-+SU2 Oh come on, how can this be so UUUUUUUUUHRG i can't evennn.
++SU Oh come on, how can this be so UUUUUUUUUHRG i can't evennn.
 
-+SU3 'Anna liked this page'
++SU 'Anna liked this page'

@@ -61,6 +61,7 @@ public class GetCharacters : MonoBehaviour
         Debug("==========GETCHARACTERS END=============");
         GetCharactersComplete = true;
 
+        GetComponent<FriendsList>().UpdateFriendsList();
 
 
     }
@@ -130,7 +131,7 @@ public class GetCharacters : MonoBehaviour
 
                 }
 
-                //Here come the dialog.
+                //Here comes the dialog.
 
                 if (getDialog && splitString[s].Contains("[Dialog]"))
                 {
@@ -190,6 +191,20 @@ public class GetCharacters : MonoBehaviour
                             if (splitString[s + i].Contains("+SU"))
                             {
                                 characters[c].statusUpdates.Add(new StatusUpdate(splitString[s + i]));
+                            }
+                    }
+                }
+
+                if (getStatusUpdates && splitString[s].Contains("[Friends]"))
+                {
+                    Debug("Found " + splitString[s]);
+                    for (int i = 0; i < 20; i++) //amount of thimes to check for status updates;
+                    {
+                        if (splitString.Length > (s + i))
+
+                            if (splitString[s + i].Contains("+F"))
+                            {
+                                characters[c].friends.Add(splitString[s + i].ToString());
                             }
                     }
                 }
