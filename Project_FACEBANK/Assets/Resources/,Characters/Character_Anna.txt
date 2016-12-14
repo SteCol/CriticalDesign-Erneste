@@ -1,5 +1,6 @@
 [Info]
 Anna Davidson
+28
 80
 Sister to Dave.
 
@@ -9,9 +10,9 @@ Sister to Dave.
 
 [Dialog]
 +Q1 Hi.
-+A1.1  Hello! [Q2]
-+A1.2  Hey [Q2]
-+A1.3  How u doin? [Q2]
++A1.1  Hello! [Q2] [V+ 2.5]
++A1.2  Hey [Q2] [V- 1.25]
++A1.3  How u doin? [Q2] [V 0.8]
 
 +Q2 I want to ask you something... [FollowThrough [Q5]]
 

@@ -21,6 +21,7 @@ public class EventsManager : MonoBehaviour
     public GetCharacters getCharacters;
     public NotificationManager notificationManager;
 
+    /*
     [Header("Chat Manager")]
     public List<ChatBubble> activeQuestions;
     public List<ChatBubble> pastQuestions;
@@ -31,6 +32,7 @@ public class EventsManager : MonoBehaviour
     public GameObject chatWindow;
     public float spacing;
     public Vector2 offset;
+    */
 
 
 
@@ -48,10 +50,10 @@ public class EventsManager : MonoBehaviour
         {
 
 
-            ExecuteRecieveMessage();
+            //ExecuteRecieveMessage();
             recieveMessage = false;
 
-            CheckForDuplicates();
+            //CheckForDuplicates();
 
         }
 
@@ -63,10 +65,9 @@ public class EventsManager : MonoBehaviour
 
     }
 
+    /*
     public void ExecuteRecieveMessage()
     {
-
-
         for (int c = 0; c < getCharacters.characters.Count; c++)
         {
             for (int q = 0; q < getCharacters.characters[c].questions.Count; q++)
@@ -109,6 +110,7 @@ public class EventsManager : MonoBehaviour
 
         }
     }
+    */
 
     public void ExecuteUpdateStatus()
     {
@@ -125,7 +127,7 @@ public class EventsManager : MonoBehaviour
             }
         }
     }
-
+    /*
     public void UpdateActiveQuestion(int c, int q)
     {
         print("UpdateActiveQuestion " + c + " " + q);
@@ -173,4 +175,5 @@ public class EventsManager : MonoBehaviour
             }
         }
     }
+    */
 }

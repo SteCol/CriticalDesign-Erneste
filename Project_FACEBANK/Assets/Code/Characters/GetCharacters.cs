@@ -28,13 +28,12 @@ public class GetCharacters : MonoBehaviour
     public bool getQuestions;
     public bool getAnswers;
     public bool getStatusUpdates;
+    public bool getFriendsList;
     public bool getProfilePic;
     public bool debug;
 
     [Header("Final Characters List")]
     public List<Character> characters = new List<Character>();
-
-
 
 
     // Use this for initialization
@@ -121,12 +120,16 @@ public class GetCharacters : MonoBehaviour
                     characters[c].name = splitString[s + 1];
                     Level2Debug("Name for Character " + c + " (" + characters[c].name + ") " + "is now: " + characters[c].name);
 
-                    Level1Debug("Found value: " + splitString[s + 2]);
-                    characters[c].value = splitString[s + 2];
+                    Level1Debug("Found age: " + splitString[s + 2]);
+                    characters[c].age = splitString[s + 2];
+                    Level2Debug("Age for Character " + c + " (" + characters[c].name + ") " + "is now: " + characters[c].age);
+
+                    Level1Debug("Found value: " + splitString[s + 3]);
+                    characters[c].value = splitString[s + 3];
                     Level2Debug("Value for Character " + c + " (" + characters[c].name + ") " + "is now: " + characters[c].value);
 
-                    Level1Debug("Found info: " + splitString[s + 3]);
-                    characters[c].info = splitString[s + 3];
+                    Level1Debug("Found info: " + splitString[s + 4]);
+                    characters[c].info = splitString[s + 4];
                     Level2Debug("Info for Character " + c + " (" + characters[c].name + ") " + "is now: " + characters[c].info);
 
                 }
@@ -163,14 +166,67 @@ public class GetCharacters : MonoBehaviour
                                                 //Get the int value out of the [Qx] identifier
                                                 string nextQ = splitString[r + a].Substring(splitString[r + a].IndexOf('[') + 2);
                                                 string[] nextQArray = nextQ.Split(']');
-                                                Level4Debug("Found value for NextQuestion for " + splitString[r + a] + nextQArray[0]);
+                                                Level4Debug("Found value for NextQuestion for " + splitString[r + a] + " = " + nextQArray[0]);
 
-                                                characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], int.Parse(nextQArray[0])));
+
+                                                if (splitString[r + a].Contains("[V"))
+                                                {
+
+                                                    //Get polarty
+                                                    Level3Debug("Checking polarity for " + splitString[r + a]);
+                                                    string polarity = splitString[r + a].Substring(splitString[r + a].IndexOf("[V") + 2);
+                                                    string[] polarityArray = polarity.Split(' ');
+                                                    Level4Debug("Found polarity " + polarityArray[0]);
+
+                                                    //Get value
+                                                    Level3Debug("Checking Value for " + splitString[r + a]);
+                                                    //string valueString = polarity.Substring(polarity.IndexOf("]") - 1);
+                                                    string[] valueStringArray = polarity.Split(']');
+                                                    string[] tempValueStringArray = valueStringArray[0].Split(' ');
+                                                    Level4Debug("valuestringarray.length: " + valueStringArray.Length);
+
+                                                    if (valueStringArray.Length > 1)
+                                                    {
+                                                        Level4Debug("Found value " + tempValueStringArray[1]);
+                                                    }
+                                                    else {
+                                                        Level4Debug("Found value " + tempValueStringArray[0]);
+
+                                                    }
+
+                                                    if (polarity.Contains("+")) //if positive
+                                                    {
+                                                        characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], int.Parse(nextQArray[0]), float.Parse(tempValueStringArray[1])));
+
+                                                    }
+                                                    else if (polarity.Contains("-")) //if negztive
+                                                    {
+                                                        characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], int.Parse(nextQArray[0]), -float.Parse(tempValueStringArray[1])));
+
+                                                    }
+                                                    else //if nothing
+                                                    {
+                                                        characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], int.Parse(nextQArray[0]), float.Parse(tempValueStringArray[1])));
+
+                                                    }
+
+                                                    //characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], int.Parse(valueString), 666));
+                                                }
+                                                else {
+
+                                                    characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], int.Parse(nextQArray[0]), 666));
+                                                }
+
                                             }
                                             else
                                             {
-                                                characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], 666));
+                                                characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], 666, 666));
                                             }
+
+
+                                            
+                                            
+
 
                                             Level3Debug("Added answer '" + splitString[r + a] + "' to " + characters[c].name);
                                         }
@@ -181,6 +237,7 @@ public class GetCharacters : MonoBehaviour
                     }
                 }
 
+                //Status Updates
                 if (getStatusUpdates && splitString[s].Contains("[StatusUpdates]"))
                 {
                     Debug("Found " + splitString[s]);
@@ -195,10 +252,11 @@ public class GetCharacters : MonoBehaviour
                     }
                 }
 
-                if (getStatusUpdates && splitString[s].Contains("[Friends]"))
+                //Friends
+                if (getFriendsList && splitString[s].Contains("[Friends]"))
                 {
                     Debug("Found " + splitString[s]);
-                    for (int i = 0; i < 20; i++) //amount of thimes to check for status updates;
+                    for (int i = 0; i < 20; i++) //amount of lines to check for friends;
                     {
                         if (splitString.Length > (s + i))
 
@@ -240,7 +298,7 @@ public class GetCharacters : MonoBehaviour
 
                 //Level3Debug(charName);
 
-                Level3Debug(characters[c].name);
+                Level3Debug("Getting First Name for " + characters[c].name);
 
                 //string charName = characters[c].name.Substring(characters[c].name.IndexOf(' ') + 1); //to get a 'Characters/Characters_xyxyxy.txt' path (to be ready by Resoures.Load) I placed a ',' (not used in any other path).
                 //Level4Debug(charName);
@@ -248,10 +306,11 @@ public class GetCharacters : MonoBehaviour
                 string[] chars = characters[c].name.Split(' ');
                 string charName = chars[0];
 
-                Level4Debug(charName);
+                Level4Debug("Get name: " + charName);
 
 
-                if (profilePicPaths[p].Contains(charName)) {
+                if (profilePicPaths[p].Contains(charName))
+                {
                     characters[c].profilePic = profilePics[p];
                 }
 
@@ -307,25 +366,25 @@ public class GetCharacters : MonoBehaviour
     public void Level1Debug(string message)
     {
         if (debug)
-            print("|--- " + message);
+            print(" |--- " + message);
     }
 
     public void Level2Debug(string message)
     {
         if (debug)
-            print("    |--- " + message);
+            print("         |--- " + message);
     }
 
     public void Level3Debug(string message)
     {
         if (debug)
-            print("        |--- " + message);
+            print("                 |--- " + message);
     }
 
     public void Level4Debug(string message)
     {
         if (debug)
-            print("            |--- " + message);
+            print("                         |--- " + message);
     }
 
 

@@ -7,6 +7,7 @@ public class Character  {
 
     [Header("General Info")]
     public string name;
+    public string age;
     public Sprite profilePic;
     public string value;
     public string info;

@@ -6,11 +6,13 @@ using UnityEngine;
 public class Answer {
     public string A;
     public int nextQuestion;
+    public float valueChange;
 
     
-    public Answer(string _A, int _nextQuestion) {
+    public Answer(string _A, int _nextQuestion, float _valueChange) {
         A = _A;
         nextQuestion = _nextQuestion;
+        valueChange = _valueChange;
     }
     
 	
