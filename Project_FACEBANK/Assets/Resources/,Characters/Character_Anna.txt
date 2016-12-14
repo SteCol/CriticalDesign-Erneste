@@ -10,7 +10,7 @@ Sister to Dave.
 
 [Dialog]
 +Q1 Hi.
-+A1.1  Hello! [Q2] [V+ 2.5]
++A1.1  Hello! [Q2] [V+ 2.5] [SU2]
 +A1.2  Hey [Q2] [V- 1.25]
 +A1.3  How u doin? [Q2] [V 0.8]
 
@@ -27,8 +27,13 @@ Sister to Dave.
 +Q5 Something personal... [FollowThrough [Q3]]
 
 [StatusUpdates]
-+SU OMG like this chainsaw is soooooo cure I want it.
++SU1 OMG like this chainsaw is soooooo cure I want it.
++C1.1 [Dave] Anna, ur a bitch LOL! XDXD
++C1.2 [Steve] Oh shut up dave. That's indeed a very nice chainsaw Anna.
++C1.3 [Anna] Loltrue dave XDXD *High five
++C1.4 [Dave] *High Five
++C1.5 [Steve] I hate both of you...
 
-+SU Oh come on, how can this be so UUUUUUUUUHRG i can't evennn.
++SU2 Oh come on, how can this be so UUUUUUUUUHRG i can't evennn.
 
-+SU 'Anna liked this page'
++SU3 'Anna liked this page'

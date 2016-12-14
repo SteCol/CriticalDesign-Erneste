@@ -149,12 +149,8 @@ public class GetCharacters : MonoBehaviour
                                 characters[c].questions.Add(new Question(splitString[r], false)); //Adds a question to the list with the string d and a 'answered' value of false. So, an unaswered question.
                                 Level2Debug("Added question '" + splitString[r] + "' to " + characters[c].name);
 
-
                                 for (int a = 1; a < 10; a++) //Amount of answers to check.
                                 {
-
-
-
                                     if (splitString.Length > (r + a))
                                     {
                                         if (splitString[r + a].Contains("+A" + q.ToString() + "." + a.ToString())) //CHeck is the line it's checking has an answer
@@ -230,14 +226,44 @@ public class GetCharacters : MonoBehaviour
                 if (getStatusUpdates && splitString[s].Contains("[StatusUpdates]"))
                 {
                     Debug("Found " + splitString[s]);
-                    for (int i = 0; i < 20; i++) //amount of thimes to check for status updates;
+                    for (int i = 0; i < 20; i++) //amount of lines to check for status updates;
                     {
                         if (splitString.Length > (s + i))
+                        {
+                            Level1Debug("Looking for SU cycle " + i);
 
                             if (splitString[s + i].Contains("+SU"))
                             {
-                                characters[c].statusUpdates.Add(new StatusUpdate(splitString[s + i]));
+                                Level2Debug("Found SU at " + i + ":" + splitString[s + i]);
+                                //new List<Comment> comments = new List<Comment>(); 
+                                characters[c].statusUpdates.Add(new StatusUpdate(splitString[s + i], null));
                             }
+
+                            Level1Debug("Looking for C cycle " + i);
+
+                            if (splitString[s + i].Contains("+C"))
+                            {
+                                Level2Debug("Found COMMENT at " + i + ":" + splitString[s + i]);
+                                /*
+                                if (characters[c].statusUpdates[i].content.Contains("SU" + i.ToString()))
+                                {
+                                    characters[c].statusUpdates[i].comments.Add(new Comment(splitString[s + i], "Jane Doe"));
+                                }
+                                */
+                                /*
+                                for (int su = 0; su < 20; su++) {
+                                    Level2Debug("Comment identification check " + su.ToString());
+                                    if (splitString.Length > (s + su))
+                                    {
+                                        if (characters[c].statusUpdates[su].content.Contains("SU" + su.ToString()))
+                                        {
+                                            characters[c].statusUpdates[su].comments.Add(new Comment(splitString[s + i], "Jane Doe"));
+                                        }
+                                    }
+                                }
+                                */
+                            }
+                        }
                     }
                 }
 
@@ -258,10 +284,14 @@ public class GetCharacters : MonoBehaviour
             }
         }
     }
+    public void CheckValue()
+    {
+
+    }
+
 
     public void GetProfilePic()
     {
-
         for (int p = 0; p < profilePicPaths.Count; p++)
         {
 

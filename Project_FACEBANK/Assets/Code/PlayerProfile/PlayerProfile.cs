@@ -19,7 +19,8 @@ public class PlayerProfile : MonoBehaviour
     public InputField nameInput;
     public InputField ageInput;
     //public Sprite profilePic;
-    //public string value;
+    public Text valueText;
+    public List<int> values;
     public InputField infoInput;
     public List<Sprite> possibleProfilePics;
 
@@ -33,19 +34,7 @@ public class PlayerProfile : MonoBehaviour
         //UpdateInfo();
         profilePicChoice.options.Clear();
         profilePicChoice.AddOptions(possibleProfilePics);
-
-
-        //for (int i = 0; i < GameObject.FindGameObjectsWithTag("ProfilePicDropdown").Length; i++)
-        //    GameObject.FindGameObjectsWithTag("ProfilePicDropdown")[i].GetComponent<Image>().sprite = possibleProfilePics[i];
-        //foreach (GameObject g in GameObject.FindGameObjectsWithTag("ProfilePicDropdown")){
-        //}
-
-        //profilePicChoice.AddOptions(GetComponent<GetCharacters>().profilePicPaths);
-
-        foreach (Sprite s in possibleProfilePics) {
-            //profilePicChoice.options.Add(Dropdown.OptionData);
-
-        }
+        
     }
     // Update is called once per frame
     void Update()
@@ -53,9 +42,6 @@ public class PlayerProfile : MonoBehaviour
         if (GetComponent<GetCharacters>().GetCharactersComplete)
         if (name != nameInput.text || age != ageInput.text || info != infoInput.text)
             UpdateInfo();
-
-        
-
     }
 
     void UpdateInfo()
@@ -67,5 +53,9 @@ public class PlayerProfile : MonoBehaviour
 
     public void UpdateProfilePic() {
         //profilePicChoice.GetComponent<Image>().sprite = possibleProfilePics[profilePicChoice.GetComponent<Dropdown>().value];
+    }
+
+    public void updateValue() {
+        values.Insert(0, int.Parse(value));
     }
 }
