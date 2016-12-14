@@ -1,0 +1,15 @@
+[Info]
+Joseph
+28 years old
+mut friends
+value
+
+[Dialog]
++Q1
+
+[StatusUpdates]
++SU1
+
++SU2
+
++SU3
