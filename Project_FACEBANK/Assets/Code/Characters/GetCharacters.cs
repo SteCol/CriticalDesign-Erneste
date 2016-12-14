@@ -191,23 +191,19 @@ public class GetCharacters : MonoBehaviour
                                                     }
                                                     else {
                                                         Level4Debug("Found value " + tempValueStringArray[0]);
-
                                                     }
 
                                                     if (polarity.Contains("+")) //if positive
                                                     {
                                                         characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], int.Parse(nextQArray[0]), float.Parse(tempValueStringArray[1])));
-
                                                     }
                                                     else if (polarity.Contains("-")) //if negztive
                                                     {
                                                         characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], int.Parse(nextQArray[0]), -float.Parse(tempValueStringArray[1])));
-
                                                     }
                                                     else //if nothing
                                                     {
                                                         characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], int.Parse(nextQArray[0]), float.Parse(tempValueStringArray[1])));
-
                                                     }
 
                                                     //characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], int.Parse(valueString), 666));
@@ -216,18 +212,11 @@ public class GetCharacters : MonoBehaviour
 
                                                     characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], int.Parse(nextQArray[0]), 666));
                                                 }
-
                                             }
                                             else
                                             {
                                                 characters[c].questions[q - 1].answers.Add(new Answer(splitString[r + a], 666, 666));
                                             }
-
-
-                                            
-                                            
-
-
                                             Level3Debug("Added answer '" + splitString[r + a] + "' to " + characters[c].name);
                                         }
                                     }
