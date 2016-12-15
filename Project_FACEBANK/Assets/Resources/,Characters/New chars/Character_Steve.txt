@@ -1,0 +1,11 @@
+[Info]
+Steve
+20
+95.2
+
+[Friends]
++F Lolly
+
+[Dialog]
+
+[StatusUpdates]

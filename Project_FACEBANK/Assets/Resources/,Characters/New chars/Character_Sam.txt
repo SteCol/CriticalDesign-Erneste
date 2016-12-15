@@ -1,0 +1,13 @@
+[Info]
+Sam
+27
+117.5
+
+[Friends]
++F Joseph
++F Nina
+
+[Dialog]
+
+[StatusUpdates]
++SU Another day at the studio!
