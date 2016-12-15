@@ -1,0 +1,16 @@
+[Info]
+Nina
+25
+133.9
+
+[Friends]
++F Lolly
++F Aadila
++F Sam
+
+[Dialog]
+
+[StatusUpdates]
++SU Busy day at the shop!
+
++SU Sigh... Can't keep up with all the orders.
