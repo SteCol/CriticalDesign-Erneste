@@ -155,6 +155,9 @@ public class GetCharacters : MonoBehaviour
                                         characters[c].questions.RemoveAt(que);
                                     }
                                 }
+
+                                //Here is where the values for Q need to be calculated
+                                //The: the question can be added to the questions list with an added variable.
                                 
                                 characters[c].questions.Add(new Question(splitString[r], false)); //Adds a question to the list with the string d and a 'answered' value of false. So, an unaswered question.
                                 Level2Debug("Added question " + q.ToString() + " '" + splitString[r] + "' to " + characters[c].name);
