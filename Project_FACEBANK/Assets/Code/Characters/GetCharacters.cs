@@ -142,12 +142,25 @@ public class GetCharacters : MonoBehaviour
 
                     for (int r = 0; r < splitString.Length; r++)
                     {
-                        for (int q = 0; q < 20; q++) //Amount of questions to check.
+                        for (int q = 0; q < 30; q++) //Amount of questions to check.
                         {
                             if (splitString[r].Contains("+Q" + q.ToString()))
                             {
+
+                                for (int que = 0; que < characters[c].questions.Count; que++)
+
+                                {
+                                    if (characters[c].questions[que].Q == (splitString[r])){
+                                       Level5Debug("OH NO (" + splitString[r] +  ")");
+                                        characters[c].questions.RemoveAt(que);
+                                    }
+                                }
+
+                                //Here is where the values for Q need to be calculated
+                                //The: the question can be added to the questions list with an added variable.
+                                
                                 characters[c].questions.Add(new Question(splitString[r], false)); //Adds a question to the list with the string d and a 'answered' value of false. So, an unaswered question.
-                                Level2Debug("Added question '" + splitString[r] + "' to " + characters[c].name);
+                                Level2Debug("Added question " + q.ToString() + " '" + splitString[r] + "' to " + characters[c].name);
 
                                 for (int a = 1; a < 10; a++) //Amount of answers to check.
                                 {
@@ -249,7 +262,6 @@ public class GetCharacters : MonoBehaviour
                                         if (splitString[s + i  + com].Contains("+C" ))
                                         {
                                             Level4Debug("Found C at " + (i + com) + ": " + splitString[s + i + com] + "  --  | i: " + i + " | s: " + s + " | com:" + com);
-
 
                                             string[] polarityArray = splitString[s + i + com].Split('.');
                                             string polarity = polarityArray[0].Substring(polarityArray[0].IndexOf(".") + 2);
