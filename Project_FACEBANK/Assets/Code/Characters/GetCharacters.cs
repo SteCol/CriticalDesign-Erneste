@@ -230,38 +230,59 @@ public class GetCharacters : MonoBehaviour
                     {
                         if (splitString.Length > (s + i))
                         {
-                            Level1Debug("Looking for SU cycle " + i);
+                            //Level1Debug("Looking for SU cycle " + i);
 
-                            if (splitString[s + i].Contains("+SU"))
+                            if (splitString[s + i].Contains("+SU")) //If the line is a Status Update
                             {
-                                Level2Debug("Found SU at " + i + ":" + splitString[s + i]);
+                                Level2Debug("Found SU at " + i + ": " + splitString[s + i]);
                                 //new List<Comment> comments = new List<Comment>(); 
-                                characters[c].statusUpdates.Add(new StatusUpdate(splitString[s + i], null));
-                            }
+                                characters[c].statusUpdates.Add(new StatusUpdate(splitString[s + i]));
 
-                            Level1Debug("Looking for C cycle " + i);
+                                for (int com = 0; com < 20; com++) {
+                                    //Level2Debug("Looking for C cycle " + com);
 
-                            if (splitString[s + i].Contains("+C"))
-                            {
-                                Level2Debug("Found COMMENT at " + i + ":" + splitString[s + i]);
-                                /*
-                                if (characters[c].statusUpdates[i].content.Contains("SU" + i.ToString()))
-                                {
-                                    characters[c].statusUpdates[i].comments.Add(new Comment(splitString[s + i], "Jane Doe"));
-                                }
-                                */
-                                /*
-                                for (int su = 0; su < 20; su++) {
-                                    Level2Debug("Comment identification check " + su.ToString());
-                                    if (splitString.Length > (s + su))
+                                    //Level3Debug("Comment splitstring is good for " + splitString[s + i + com]);
+                                    if (splitString.Length > (s + i + com))
                                     {
-                                        if (characters[c].statusUpdates[su].content.Contains("SU" + su.ToString()))
+                                        Level3Debug("Splittring length: " + splitString.Length + " | s+i+com: " + (s + i + com));
+
+                                        if (splitString[s + i  + com].Contains("+C" ))
                                         {
-                                            characters[c].statusUpdates[su].comments.Add(new Comment(splitString[s + i], "Jane Doe"));
+                                            Level4Debug("Found C at " + (i + com) + ": " + splitString[s + i + com] + "  --  | i: " + i + " | s: " + s + " | com:" + com);
+
+
+                                            string[] polarityArray = splitString[s + i + com].Split('.');
+                                            string polarity = polarityArray[0].Substring(polarityArray[0].IndexOf(".") + 2);
+                                            //Level4Debug(polarity);
+
+                                            char _v = polarity[1];
+                                            int v = int.Parse(_v.ToString());
+
+                                            Level4Debug(v.ToString() + " " + (v-1).ToString());
+
+                                            string _commentor = splitString[s + i + com].Substring(splitString[s + i + com].IndexOf(" ") + 2);
+                                            string[] commentorArray = _commentor.Split(']');
+                                            _commentor = commentorArray[0];
+
+
+                                            Level5Debug(_commentor);
+
+                                            //if (splitString[s + i + com]) 
+                                            foreach (Character cha in characters)
+                                            {
+                                                foreach (StatusUpdate su in cha.statusUpdates)
+                                                {
+                                                    Level5Debug("Checking for " + su.content);
+                                                    if (su.content.Contains("+SU" + (v ).ToString()))
+                                                    {
+                                                        Level5Debug("Adding '" + splitString[s + i + com] + "' to '" + su.content + "'.");
+                                                        su.comments.Add(new Comment(splitString[s + i + com], _commentor));
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
-                                */
                             }
                         }
                     }
@@ -385,25 +406,31 @@ public class GetCharacters : MonoBehaviour
     public void Level1Debug(string message)
     {
         if (debug)
-            print(" |--- " + message);
+            print("     |--- " + message);
     }
 
     public void Level2Debug(string message)
     {
         if (debug)
-            print("         |--- " + message);
+            print("             |--- " + message);
     }
 
     public void Level3Debug(string message)
     {
         if (debug)
-            print("                 |--- " + message);
+            print("                     |--- " + message);
     }
 
     public void Level4Debug(string message)
     {
         if (debug)
-            print("                         |--- " + message);
+            print("                             |--- " + message);
+    }
+
+    public void Level5Debug(string message)
+    {
+        if (debug)
+            print("                                       |--- " + message);
     }
 
 
