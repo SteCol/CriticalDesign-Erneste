@@ -6,7 +6,7 @@ Joseph
 [Friends]
 +F Sam
 
-[Dialog]
+[Period 1]
 +Q1 did you see my post? how do i look?
 
 +A1.1 Lookin' good, buddy! [Q2]
@@ -21,7 +21,7 @@ Joseph
 
 +Q3 but i like this tie... :-(
 
-+A3.1 Well, just wear it then. I guess it's important to wear something you're comfortable in. [Q7]
++A3.1 Well, just wear it then. I guess it's important to wear something you're comfortable in. [Q7]	
 +A3.2 I know you do, and it's a nice tie, but you should look a little more professional at your interview. [Q14]
 +A3.3 Fine. Be stubborn. I couldn't care less. [Q10]
 
