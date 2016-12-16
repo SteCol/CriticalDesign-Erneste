@@ -1,20 +1,21 @@
 [Info]
-Anna Davidson
-28
-80
-Sister to Dave.
+name: Anna Davidson
+age: 28
+value: 80
+info: Sister to Dave.
 
 [Friends]
 +F Kevin
 +F Dave
 
 [Dialog]
+[Period_1]
 +Q1 Hi.
-+A1.1  Hello! [Q2] [V+ 2.5] [SU2]
-+A1.2  Hey [Q2] [V- 1.25]
-+A1.3  How u doin? [Q2] [V 0.8]
++A1.1  Hello! [Q2] [V+_2.5] [SU2]
++A1.2  Hey [Q2] [V-_1.25]
++A1.3  How u doin? [Q2] [V_0.8]
 
-+Q2 I want to ask you something... [FollowThrough [Q5]]
++Q2 I want to ask you something... [FollowThrough_[Q5]]
 
 +Q3 like WAY personal.
 +A3.1 WHat's up? 
@@ -24,9 +25,16 @@ Sister to Dave.
 +A4.1  Doing alright, how are you?
 +A4.2  aThing
 
-+Q5 Something personal... [FollowThrough [Q3]]
++Q5 Something personal... [FollowThrough_[Q3]]
+
+[Period_2]
++Q1 hOI
++A1.1  Hi Temmi! [Q2] [V+_2.5] [SU2]
++A1.2  Hey Temmi. [Q2] [V-_1.25]
++A1.3  Oh god not again! [Q2] [V_0.8]
 
 [StatusUpdates]
+[Period_1]
 +SU1 OMG like this chainsaw is soooooo cure I want it.
 +C1.1 [Dave] Anna, ur a bitch LOL! XDXD
 +C1.2 [Steve] Oh shut up dave. That's indeed a very nice chainsaw Anna.
@@ -34,6 +42,7 @@ Sister to Dave.
 +C1.4 [Dave] *High Five
 +C1.5 [Steve] I hate both of you...
 
+[Period_2]
 +SU2 Oh come on, how can this be so UUUUUUUUUHRG i can't evennn.
 +C2.1 [Steve] Stop complaining.
 
