@@ -1,8 +1,10 @@
 [Info]
-Steve Stevenson
-50
-55
-Friend of Anna.
+name: Steve Stevenson
+age: 50
+value: 55
+info: Friend of Anna.
+
+[Friends]
 
 [Dialog]
 +Q1 Hi there. 

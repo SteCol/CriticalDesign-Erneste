@@ -28,9 +28,9 @@ public class GetCharacters_B : MonoBehaviour
     public bool getQuestions;
     public bool getAnswers;
     public bool getStatusUpdates;
-    public bool getFriendsList;
+    public bool getFriends;
     public bool getProfilePic;
-    public bool debug;
+    public bool debug, cycleDebug;
 
     [Header("Final Characters List")]
     public List<Character> characters = new List<Character>();
@@ -40,8 +40,8 @@ public class GetCharacters_B : MonoBehaviour
     void Start()
     {
 
-        Debug1("==========GETCHARACTERS START=============");
-        Debug1("==========GETTING PATHS=============");
+        Debug1("//////////////////////////////////////////////////////////////////////// GETCHARACTERS START ////////////////////////////////////////////////////////////////////////");
+        Debug1("//////////////////////////////////////////////////////////////////////// GETTING PATHS ////////////////////////////////////////////////////////////////////////");
 
         //Gets the character.txt files.
         if (getPaths)
@@ -50,18 +50,18 @@ public class GetCharacters_B : MonoBehaviour
             GetFiles();
         }
 
-        Debug1("==========GETTING CHARACTERS=============");
+        Debug1("//////////////////////////////////////////////////////////////////////// GETTING CHARACTERS ////////////////////////////////////////////////////////////////////////");
         //Start of the descipherer.
         if (getPaths)
             GetCharacters();
 
-        Debug1("==========GETTING PROFILE PICS=============");
+        Debug1("//////////////////////////////////////////////////////////////////////// GETTING PROFILE PICS ////////////////////////////////////////////////////////////////////////");
         //Get the profile pictures.
         if (getProfilePic)
             GetProfilePic();
 
 
-        Debug1("==========GETCHARACTERS END=============");
+        Debug1("//////////////////////////////////////////////////////////////////////// GETCHARACTERS END ////////////////////////////////////////////////////////////////////////");
         GetCharactersComplete = true;
 
         //GetComponent<FriendsList>().UpdateFriendsList();
@@ -81,7 +81,7 @@ public class GetCharacters_B : MonoBehaviour
             {
                 characterPaths.Add(p);
                 Debug3("Found character file at " + p);
-                Debug3("Attempting to add Character " + p);
+                //Debug3("Attempting to add Character " + p);
             }
 
             if (p.Contains("ProfilePic_") && !p.Contains("meta")) //Get the profile pics.
@@ -92,7 +92,8 @@ public class GetCharacters_B : MonoBehaviour
         }
     }
 
-    public void GetFiles() {
+    public void GetFiles()
+    {
 
         foreach (string p in characterPaths)   //Get the character files
 
@@ -118,96 +119,333 @@ public class GetCharacters_B : MonoBehaviour
 
     public void GetCharacters()
     {
-        for (int f = 0; f < characterFiles.Count; f++) //for each path is characterPaths (character files).'f' being the index.
+        for (int c = 0; c < characterFiles.Count; c++) //for each path is characterPaths (character files).'f' being the index.
         {
-            Debug2("(" + f + ") Getting character from file: " + characterPaths[f]);
+            DebugSplit2("(" + c + ") Getting character from file: " + characterPaths[c]);
 
             //Get each line in the file.
 
             characters.Add(new Character()); //For each Characters.txt file found make a new entry in the list.
-            string[] line = characterFiles[f].text.Split(new string[] { "\n" }, StringSplitOptions.None); //Get each seperate line from the Characters.txt files.
-            Debug3("Amount of lines in " + characterFiles[f].name + "'s file: " + line.Length.ToString());
+            string[] line = characterFiles[c].text.Split(new string[] { "\n" }, StringSplitOptions.None); //Get each seperate line from the Characters.txt files.
+            Debug3("Amount of lines in " + characterFiles[c].name + "'s file: " + line.Length.ToString());
+
+            GetMainLines(c, line);
 
 
-            //Starts with getting [INFO].
+            //[INFO]
             if (getInfo == true)
             {
-                for (int l = 0; l < line.Length; l++) {
-                    if (line[l].Contains("[Info]")) {
-                        DebugSplit("Found [Info] for " + characterFiles[f].name);
-                        if (l >= line.Length) {
-                            for (int i = 0; i < 20; i++)
-                            { //Amount of lines to check after it's found [INFO].
-                                if (line[l + i].Contains("name:"))
-                                {
-                                    characters[f].name = line[i + l];
-                                    Debug4("Name for '" + characterFiles[f].name + "' is now '" + characters[f].name + "'.");
-                                }
+                DebugSplit("Info Start");
+                Debug1("Getting [Info] from line " + characters[c].infoLineIndex + " on.");
+                for (int l = characters[c].infoLineIndex + 1; l < characters[c].friendsLineIndex; l++) //every line between [Info] and [Friends]
+                {
 
-                                if (line[l + i].Contains("value:"))
-                                {
-                                    characters[f].value = line[i + l];
-                                    Debug4("Value for '" + characterFiles[f].name + "' is now '" + characters[f].value + "'.");
-                                }
-
-                                if (line[l + i].Contains("info:"))
-                                {
-                                    characters[f].info = line[i + l];
-                                    Debug4("Info for '" + characterFiles[f].name + "' is now '" + characters[f].info + "'.");
-                                }
-
-                                if (line[l + i].Contains("age:"))
-                                {
-                                    characters[f].age = line[i + l];
-                                    Debug4("Age for '" + characterFiles[f].name + "' is now '" + characters[f].age + "'.");
-                                }
-                            }
-                        }
+                    CycleDebug("Info cycle", "line ", l);
+                    if (line[l].Contains("name:"))
+                    {
+                        characters[c].name = line[l];
+                        Debug3("Name for '" + characterFiles[c].name + "' is now '" + characters[c].name + "'.");
                     }
+
+                    if (line[l].Contains("value:"))
+                    {
+                        characters[c].value = line[l];
+                        Debug3("Value for '" + characterFiles[c].name + "' is now '" + characters[c].value + "'.");
+                    }
+
+                    if (line[l].Contains("info:"))
+                    {
+                        characters[c].info = line[l];
+                        Debug3("Info for '" + characterFiles[c].name + "' is now '" + characters[c].info + "'.");
+                    }
+
+                    if (line[l].Contains("age:"))
+                    {
+                        characters[c].age = line[l];
+                        Debug3("Age for '" + characterFiles[c].name + "' is now '" + characters[c].age + "'.");
+                    }
+
                 }
+                DebugSplit("Info Ended");
             }
-            else {
+            else
+            {
                 Debug3("GetInfo is off");
             }
 
-
-            if (getDialog == true)
+            //[FRIENDS]
+            if (getFriends == true)
             {
-                for (int l = 0; l < line.Length; l++)
-                {
-                    if (line[l].Contains("[Dialog]"))
-                    {
-                        DebugSplit("Found [Dialog] for " + characterFiles[f].name);
+                DebugSplit("Friends Start");
 
-                        /*
-                        for (int i = 0; i < 20; i++)
-                        { //Amount of lines to check after it's found [INFO].
-                            if (line[l + i].Contains("name:"))
-                            {
-                                characters[f].name = line[i + l];
-                                Debug4("Name for '" + characterFiles[f].name + "' is now '" + characters[f].name + "'.");
-                            }
-                        }
-                        */
+                for (int l = characters[c].friendsLineIndex + 1; l < characters[c].dialofLineIndex; l++) //Every line between [Friends] and [Dialog]
+                {
+                    CycleDebug("Friends cycle ", "checking line ", l);
+
+                    if (line[l].Contains("+F"))
+                    {
+                        Debug5("Found Friends '" + line[l] + "' in Friends for '" + characterFiles[c].name + "' on line " + (l));
+                        characters[c].friends.Add(line[l]);
                     }
                 }
+
+                DebugSplit("Friends Ended");
+
             }
-            else {
+            else
+            {
+                Debug3("GetFriends is off");
+            }
+
+            //[DIALOG]
+            if (getDialog == true)
+            {
+                DebugSplit("Dialog Start");
+
+                for (int l = characters[c].dialofLineIndex + 1; l < characters[c].statusUpdatesLineIndex; l++) //Check each line between [Dialog] and [StatusUpdates]
+                {
+
+                    CycleDebug("GetDialog", "line", l);
+
+
+                    if (line[l].Contains("[Period"))
+                    {
+                        Debug5("Found Period in Dialog for '" + characterFiles[c].name + "' on line " + (l));
+
+                        //Get name
+                        Debug6(line[l]);
+                        string name = line[l];
+                        name = line[l].Replace("[", "");
+                        name = name.Replace("]", "");
+
+                        Debug6(name);
+
+                        //Get int
+                        string[] strArr = line[l].Split('_');
+                        string num = name.Replace("Period", "");
+                        num = num.Replace("_", "");
+                        Debug6(num);
+
+                        //Add period
+                        characters[c].periods.Add(new Period(name, int.Parse(num), l));
+
+                    }
+                }
+
+                if (getQuestions)
+                {
+
+                    //Adding questions per period
+                    //the if statement is needed because it needt to be able to find the space between one period and the next
+                    if (characters[c].periods.Count > 1) //If there is more than 1 period
+                    {
+                        for (int p = 0; p < characters[c].periods.Count - 1; p++) //for each period in dialog exept the last one
+                        {
+                            Debug2("Check text in between lines " + characters[c].periods[p].periodLineIndex + " " + characters[c].periods[p + 1].periodLineIndex);
+                            for (int q = characters[c].periods[p].periodLineIndex; q < characters[c].periods[p + 1].periodLineIndex; q++)//Read the lines between each period
+                            {
+                                CycleDebug(characters[c].periods[p].codeName, "checking line", q);
+
+                                //GetQuestions
+                                if (line[q].Contains("+Q"))
+                                {
+                                    Debug3("Found question on line " + q + ": " + line[q]);
+                                    characters[c].periods[p].questions.Add(new Question(line[q], false));
+                                }
+
+                                //Get Answers
+                                if (getAnswers)
+                                {
+                                    if (line[q].Contains("+A"))
+                                    {
+                                        Debug4("Found answer on line " + q + ": " + line[q]);
+
+                                        char i = line[q][2]; //Get the +A' '.x value
+                                        Debug5(i.ToString());
+
+                                        foreach (Question question in characters[c].periods[p].questions)
+                                        {
+                                            Debug5("Cheking if answer goes to " + question.Q);
+
+                                            if (question.Q.Contains("+Q" + i))//check if the value of A is the same value of Q
+                                            {
+                                                Debug6("Adding " + line[q] + " to " + question.Q);
+                                                question.answers.Add(new Answer(line[q], 666, 666));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            for (int q = characters[c].periods[characters[c].periods.Count - 1].periodLineIndex; q < characters[c].statusUpdatesLineIndex; q++)//read the lines between last period and [statusUpdates]
+                            {
+                                CycleDebug(characters[c].periods[characters[c].periods.Count - 1].codeName, "checking line", q);
+                                //GetQuestions
+                                if (line[q].Contains("+Q"))
+                                {
+                                    Debug3("Found question on line " + q + ": " + line[q]);
+                                    characters[c].periods[p].questions.Add(new Question(line[q], false));
+                                }
+
+                                //Get Answers
+                                if (getAnswers)
+                                {
+                                    if (line[q].Contains("+A"))
+                                    {
+                                        Debug4("Found answer on line " + q + ": " + line[q]);
+
+                                        char i = line[q][2]; //Get the +A' '.x value
+                                        Debug5(i.ToString());
+
+                                        foreach (Question question in characters[c].periods[p].questions)
+                                        {
+                                            Debug5("Cheking if answer goes to " + question.Q);
+
+                                            if (question.Q.Contains("+Q" + i))
+                                            {
+                                                Debug6("Adding " + line[q] + " to " + question.Q);
+                                                question.answers.Add(new Answer(line[q], 666, 666));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (characters[c].periods.Count == 1) //if there's only one period
+                    {
+                        Debug4("BBBBBBBBBRG " + characters[c].periods[0].periodLineIndex);
+                        for (int q = characters[c].periods[0].periodLineIndex; q < characters[c].statusUpdatesLineIndex; q++)//read the lines between last period and [statusUpdates]
+                        {
+                            CycleDebug(characters[c].periods[characters[c].periods.Count - 1].codeName, "checking line", q);
+                            //GetQuestions
+                            if (line[q].Contains("+Q"))
+                            {
+                                Debug3("Found question on line " + q + ": " + line[q]);
+                                characters[c].periods[0].questions.Add(new Question(line[q], false));
+                            }
+
+                            //Get Answers
+                            if (getAnswers)
+                            {
+                                if (line[q].Contains("+A"))
+                                {
+                                    Debug4("Found answer on line " + q + ": " + line[q]);
+
+                                    char i = line[q][2]; //Get the +A' '.x value
+                                    Debug5(i.ToString());
+
+                                    foreach (Question question in characters[c].periods[0].questions)
+                                    {
+                                        Debug5("Cheking if answer goes to " + question.Q);
+
+                                        if (question.Q.Contains("+Q" + i))
+                                        {
+                                            Debug6("Adding " + line[q] + " to " + question.Q);
+                                            question.answers.Add(new Answer(line[q], 666, 666));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else //if there's no periods
+                    {
+                        Debug4("No periods");
+                    }
+                }
+                else
+                {
+                    Debug3("GetQuestions is off");
+
+                }
+
+                DebugSplit("Dialog Ended");
+
+            }
+            else
+            {
                 Debug3("GetDialog is off");
             }
 
-            //[FRIENDS]
-            //[DIALOG]
-            //[PERIOD_X]
+            //[Period_X]
             //Q
             //A
-            //[STATUSUPDATES]
+
+
             //[PERIOD_X]
             //SU
             //C
 
         }
     }
+
+
+    public void GetMainLines(int c, string[] line)
+    {
+
+        DebugSplit("GetMainLines");
+        if (getStatusUpdates == true)
+        {
+            for (int l = 0; l < line.Length; l++)
+            {
+                if (line[l].Contains("[Info]"))
+                {
+                    characters[c].infoLineIndex = l;
+                    Debug3("Found [Info] for " + characterFiles[c].name + " on line " + l);
+                    break;
+                }
+                else
+                {
+                    //characters[c].infoLineIndex = 666;
+                }
+            }
+
+            for (int l = 0; l < line.Length; l++)
+            {
+                if (line[l].Contains("[Friends]"))
+                {
+                    characters[c].friendsLineIndex = l;
+                    Debug3("Found [Friends] for " + characterFiles[c].name + " on line " + l);
+                    break;
+                }
+                else
+                {
+                    //characters[c].friendsLineIndex = 666;
+                }
+            }
+
+            for (int l = 0; l < line.Length; l++)
+            {
+                if (line[l].Contains("[Dialog]"))
+                {
+                    characters[c].dialofLineIndex = l;
+                    Debug3("Found [Dialog] for " + characterFiles[c].name + " on line " + l);
+                    break;
+                }
+                else
+                {
+                    //characters[c].dialofLineIndex = 666;
+                }
+            }
+
+            for (int l = 0; l < line.Length; l++)
+            {
+                if (line[l].Contains("[StatusUpdates]"))
+                {
+                    characters[c].statusUpdatesLineIndex = l;
+                    Debug3("Found [StatusUpdates] for " + characterFiles[c].name + " on line " + l);
+                    break;
+                }
+                else
+                {
+                    //characters[c].statusUpdatesLineIndex = 666;
+                }
+            }
+        }
+
+    }
+
 
     public void GetProfilePic()
     {
@@ -262,6 +500,16 @@ public class GetCharacters_B : MonoBehaviour
             print("-------------------------" + message + "--------------------------------");
     }
 
+    public void DebugSplit2(string message)
+    {
+        if (debug)
+            print("==========" + message + "==============");
+    }
 
+    public void CycleDebug(string _location, string _info, int _number)
+    {
+        if (cycleDebug)
+            print("                                               " + _location + " | " + _info + " | " + _number + "");
+    }
 
 }

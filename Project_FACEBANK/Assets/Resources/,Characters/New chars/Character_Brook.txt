@@ -1,7 +1,7 @@
 [Info]
-Brook
-21
-97.2
+name: Brook
+age: 21
+value: 97.2
 
 [Friends]
 +F Lolly

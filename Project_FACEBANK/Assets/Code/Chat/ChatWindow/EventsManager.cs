@@ -18,7 +18,7 @@ public class EventsManager : MonoBehaviour
     public string statusUpdate;
 
     [Header("")]
-    public GetCharacters getCharacters;
+    public GetCharacters_B getCharacters;
     public NotificationManager notificationManager;
 
     /*
@@ -116,13 +116,16 @@ public class EventsManager : MonoBehaviour
     {
         for (int c = 0; c < getCharacters.characters.Count; c++)
         {
-            for (int su = 0; su < getCharacters.characters[c].statusUpdates.Count; su++)
+            for (int p = 0; p < getCharacters.characters[c].periods.Count; p++)
             {
-                if (getCharacters.characters[c].name.Contains(characterName) && getCharacters.characters[c].statusUpdates[su].content.Contains(statusUpdate))
+                for (int su = 0; su < getCharacters.characters[c].periods[p].statusUpdates.Count; su++)
                 {
-                    print(getCharacters.characters[c].name + " just updated their status: " + getCharacters.characters[c].statusUpdates[su].content + " at " + System.DateTime.Now.ToString());
-                    notificationManager.notifications.Insert(0, new Notification(getCharacters.characters[c].name, getCharacters.characters[c].statusUpdates[su].content, System.DateTime.Now, getCharacters.characters[c].profilePic));
-                    
+                    if (getCharacters.characters[c].name.Contains(characterName) && getCharacters.characters[c].periods[p].statusUpdates[su].content.Contains(statusUpdate))
+                    {
+                        print(getCharacters.characters[c].name + " just updated their status: " + getCharacters.characters[c].periods[p].statusUpdates[su].content + " at " + System.DateTime.Now.ToString());
+                        notificationManager.notifications.Insert(0, new Notification(getCharacters.characters[c].name, getCharacters.characters[c].periods[p].statusUpdates[su].content, System.DateTime.Now, getCharacters.characters[c].profilePic));
+
+                    }
                 }
             }
         }

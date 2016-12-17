@@ -29,7 +29,7 @@ public class PlayerProfile : MonoBehaviour
     void Start()
     {
         value = Random.Range(70.0f, 130.0f).ToString();
-        possibleProfilePics = GetComponent<GetCharacters>().profilePics;
+        possibleProfilePics = GetComponent<GetCharacters_B>().profilePics;
 
         //UpdateInfo();
         profilePicChoice.options.Clear();
@@ -39,7 +39,7 @@ public class PlayerProfile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GetComponent<GetCharacters>().GetCharactersComplete)
+        if (GetComponent<GetCharacters_B>().GetCharactersComplete)
         if (name != nameInput.text || age != ageInput.text || info != infoInput.text)
             UpdateInfo();
     }

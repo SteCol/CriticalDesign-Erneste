@@ -1,7 +1,7 @@
 [Info]
-Lolly
-19
-83.7
+name: Lolly
+age: 19
+value: 83.7
 
 [Friends]
 +F Brook

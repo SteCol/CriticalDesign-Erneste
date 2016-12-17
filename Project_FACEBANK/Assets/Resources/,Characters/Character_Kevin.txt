@@ -1,8 +1,10 @@
 [Info]
-Kevin Bonkers
-25
-55
-No one's friend.
+name: Kevin Bonkers
+age: 25
+value: 55
+info: No one's friend.
+
+[Friends]
 
 [Dialog]
 +Q1 Hi there. 

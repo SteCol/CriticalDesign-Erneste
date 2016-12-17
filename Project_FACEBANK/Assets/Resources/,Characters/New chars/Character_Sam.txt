@@ -1,7 +1,7 @@
 [Info]
-Sam
-27
-117.5
+name: Sam
+age: 27
+value: 117.5
 
 [Friends]
 +F Joseph

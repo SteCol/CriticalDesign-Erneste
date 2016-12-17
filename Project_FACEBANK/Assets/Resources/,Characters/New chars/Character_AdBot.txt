@@ -1,4 +1,8 @@
 [Info]
-AdBot
+name: AdBot
+
+[Friends]
+
+[Dialog]
 
 [StatusUpdates]

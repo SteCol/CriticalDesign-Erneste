@@ -1,7 +1,7 @@
 [Info]
-Aadila
-23
-102.1
+name: Aadila
+age: 23
+value: 102.1
 
 [Friends]
 +F Nina

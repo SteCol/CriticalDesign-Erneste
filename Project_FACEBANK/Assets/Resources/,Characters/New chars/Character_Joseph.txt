@@ -1,11 +1,12 @@
 [Info]
-Joseph
-28
-72.6
+name: Joseph
+age: 28
+value: 72.6
 
 [Friends]
 +F Sam
 
+[Dialog]
 [Period 1]
 +Q1 did you see my post? how do i look?
 

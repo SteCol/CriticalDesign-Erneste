@@ -8,6 +8,8 @@ public class Question {
     public bool send;
     public bool answered;
     public int followThrough;
+    public float valueChange;
+
     public List<Answer> answers = new List<Answer>();
 
     public Question(string _Q, bool _hasBeenAnswered)

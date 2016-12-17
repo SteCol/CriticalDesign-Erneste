@@ -1,7 +1,7 @@
 [Info]
-Steve
-20
-95.2
+name: Steve
+age: 20
+value: 95.2
 
 [Friends]
 +F Lolly

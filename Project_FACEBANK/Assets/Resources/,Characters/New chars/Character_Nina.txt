@@ -1,7 +1,7 @@
 [Info]
-Nina
-25
-133.9
+name: Nina
+age: 25
+value: 133.9
 
 [Friends]
 +F Lolly

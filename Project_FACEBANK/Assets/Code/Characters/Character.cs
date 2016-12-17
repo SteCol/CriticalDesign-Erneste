@@ -11,17 +11,29 @@ public class Character  {
     public Sprite profilePic;
     public string value;
     public string info;
+    public int infoLineIndex;
+
 
     [Header("Friends")]
     //public List<Friend> friends = new List<Friend>();
+    public int friendsLineIndex;
     public List<string> friends = new List<string>();
 
-
     [Header("Dialog")]
-    public List<Question> questions = new List<Question>();
+    public int dialofLineIndex;
 
     [Header("StatusUpdates")]
-    public List<StatusUpdate> statusUpdates = new List<StatusUpdate>();
+    public int statusUpdatesLineIndex;
+
+    [Header("Periods")]
+    public List<Period> periods = new List<Period>();
+
+
+    //[Header("Dialog")]
+    //public List<Question> questions = new List<Question>();
+
+    //[Header("StatusUpdates")]
+    //public List<StatusUpdate> statusUpdates = new List<StatusUpdate>();
 
 
     /*
