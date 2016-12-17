@@ -10,11 +10,39 @@ info: Hi, I'm a guy called DD LOL AMIRITE!!!!
 [Dialog]
 
 [Period_1]
++Q1 P1_Q1
++A1.1 P1_A1.1
+
++Q2 P1_Q2
++A2.1 P1_A2.1
 
 [Period_2]
++Q1 P2_Q1
++A1.1 P2_A1.1
 
-[Period_3]
++Q2 P2Q2
++A2.1 P2_A2.1
+
 
 [Period_4]
++Q1 P4_Q1
++A1.1 P4_A1.1
+
++Q2 P4Q2
++A2.1 P4_A2.1
+
+
 
 [StatusUpdates]
+[Period_2]
++SU1 P2_SU1
++C1.1 P2_C1.1
++C1.2 P2_C1.2
+
++SU2 P2_SU2
++C2.1 P2_C2.1
++C2.2 P2_C2.2
+
++SU3 P2_SU3
++C3.1 P2_C3.1
++C3.2 P2_C3.2

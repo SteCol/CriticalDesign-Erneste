@@ -42,8 +42,8 @@ info: Sister to Dave.
 +C1.4 [Dave] *High Five
 +C1.5 [Steve] I hate both of you...
 
-[Period_2]
-+SU2 Oh come on, how can this be so UUUUUUUUUHRG i can't evennn.
-+C2.1 [Steve] Stop complaining.
+[Period_3]
++SU1 Oh come on, how can this be so UUUUUUUUUHRG i can't evennn.
++C1.1 [Steve] Stop complaining.
 
-+SU3 'Anna liked this page'
++SU2 'Anna liked this page'

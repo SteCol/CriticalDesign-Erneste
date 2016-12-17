@@ -24,6 +24,7 @@ public class GetCharacters_B : MonoBehaviour
     public bool getPaths;
     public bool getCharacters;
     public bool getInfo;
+    public bool getPeriods;
     public bool getDialog;
     public bool getQuestions;
     public bool getAnswers;
@@ -280,6 +281,8 @@ public class GetCharacters_B : MonoBehaviour
                 {
                     Debug3("GetQuestions is off");
                 }
+
+
                 DebugSplit("Dialog Ended");
             }
             else
@@ -291,6 +294,162 @@ public class GetCharacters_B : MonoBehaviour
             //SU
             //C
 
+            if (getPeriods)
+            {
+                DebugSplit("StatusUpdate getPeriods Start");
+                for (int l = characters[c].statusUpdatesLineIndex + 1; l < line.Length; l++) //Check each line between [StatusUpdate] and End of file
+                {
+
+                    CycleDebug("GetStatusUpdate", "line", l);
+
+                    if (line[l].Contains("[Period"))
+                    {
+                        Debug5("Found Period in StatusUpdates for '" + characterFiles[c].name + "' on line " + (l));
+
+                        //Get name
+                        Debug6(line[l]);
+                        string name = line[l];
+                        name = line[l].Replace("[", "");
+                        name = name.Replace("]", "");
+
+                        //Get int
+                        string[] strArr = line[l].Split('_');
+                        string num = name.Replace("Period", "");
+                        num = num.Replace("_", "");
+
+                        //Check if period already exists
+
+                        bool periodFound = false;
+
+                        foreach (Period p in characters[c].periods)
+                        {
+                            Debug6("Comparing " + name + " to " + p.codeName);
+
+                            if (p.codeName == name)
+                            {
+                                Debug6("Period with name '" + name + "' already exists");
+                                periodFound = true;
+                                Debug6("Changing " + p.codeName + "'s lineIndex from " + p.periodLineIndex + " to " + l);
+                                p.periodLineIndex = l;
+                                break;
+
+                            }
+                        }
+
+                        if (periodFound == false) //If not, add the period and add the statusUpdates
+                        {
+                            Debug6("Adding period '" + name + "'.");
+
+                            characters[c].periods.Add(new Period(name, int.Parse(num), l));
+                        }
+                    }
+
+                    
+
+                    
+                }
+
+                for (int l = characters[c].statusUpdatesLineIndex + 1; l < line.Length; l++) //Check each line between [StatusUpdate] and End of file
+                {
+                    //Get the Status Updates
+                    if (line[l].Contains("+SU"))
+                    {
+                        Debug2("Found SU in " + characters[c].name + ", line " + l + ", '" + line[l] + "'.");
+
+                        for (int i = l; i > 0; i--)
+                        {//Count from SU upwards
+                            Debug3("Checking from " + l + "( " + line[l] + ") " + i);
+                            if (line[i].Contains("[Period_"))
+                            {
+                                Debug3(line[l] + " belongs in " + line[i]);
+
+                                name = line[i].Replace("[", "");
+                                name = name.Replace("]", "");
+                                foreach (Period p in characters[c].periods)
+                                {
+                                    if (p.codeName.Contains(name))
+                                    {
+
+                                        p.statusUpdates.Add(new StatusUpdate(line[l]));
+                                        Debug4("Added " + line[l] + " to " + p.codeName);
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                for (int l = characters[c].statusUpdatesLineIndex + 1; l < line.Length; l++) //Check each line between [StatusUpdate] and End of file
+                {
+                    //Get the Comments
+                    if (line[l].Contains("+C"))
+                    {
+                        Debug2("Found C in " + characters[c].name + ", line " + l + ", '" + line[l] + "'.");
+
+                        for (int i = l; i > 0; i--)
+                        {//Count from C upwards
+                            Debug3("Checking from " + l + "( " + line[l] + ") " + i);
+                            if (line[i].Contains("+SU"))
+                            {
+                                Debug3(line[l] + " belongs in " + line[i]);
+
+                                foreach (Period p in characters[c].periods)
+                                {
+                                    Debug5("Checking Period " + p.codeName);
+                                    foreach (StatusUpdate su in p.statusUpdates)
+                                    {
+                                        Debug6("Comparing SU '" + su.content + "' to '" + line[i] + "'.");
+
+                                        if (su.content.Contains(line[i]))
+                                        {
+                                            su.comments.Add(new Comment(line[l], "Jane Doe"));
+                                            Debug6("Added " + line[l] + " to " + su.content);
+                                            break;
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                    DebugSplit("StatusUpdate getPeriods End");
+            }
+            
+            if (getStatusUpdates)
+            {
+                DebugSplit("StatusUpdate getStatusUpdates End");
+
+
+
+                DebugSplit("StatusUpdate getStatusUpdates End");
+            }
+            else
+            {
+                Debug3("GetStatusUpdates is off");
+            }
+
+    
+        }
+    }
+
+    public void GetStatusUpdate(string[] line, int c, int q, int p)
+    {
+        //GetQuestions
+        if (line[q].Contains("+SU"))
+        {
+            Debug3("Found SU on line " + q + ": " + line[q]);
+
+            Debug4("Adding SU '" + line[q] + "' to '" + characters[c].periods[p].codeName + "'.");
+
+            characters[c].periods[p].statusUpdates.Add(new StatusUpdate(line[q])); //add question with the proper values, 666 is there was no variable.
+
+
+            //Get ValueChange value
+
         }
     }
 
@@ -300,49 +459,51 @@ public class GetCharacters_B : MonoBehaviour
         if (line[q].Contains("+Q"))
         {
             Debug3("Found question on line " + q + ": " + line[q]);
-            Debug4("Adding question " + line[q] + " to " + characters[c].periods[p].codeName);
 
             //Get Variables value
-            Debug6(line[q]);
+            //Debug6(line[q]);
             string[] followThrough = line[q].Split('[');
 
             string followThroughValue = "666";
             string valueChangeValue = "666";
 
             for (int cha = 0; cha < line[q].Length; cha++) //for each character in the question
-            {                    
+            {
                 if (line[q][cha] == '[') //Get the first '['
                 {
-                    Debug6("found [  at " + cha + " on line " + line[q]);
+                    //Debug6("found [  at " + cha + " on line " + line[q]);
 
                     for (int ss = cha; ss < line[q].Length; ss++) //From the first '[' onwards
                     {
                         if (line[q][ss] == ']') //Count untill ']'
                         {
-                            Debug6("found ] at " + cha + " on line " + line[q]);
+                            //Debug6("found ] at " + cha + " on line " + line[q]);
                             string subString = line[q].Substring(cha + 1, (ss - cha - 1)); //get the string inbetween '[' and ']';
 
                             if (!subString.Contains("[") || !subString.Contains("]")) //If the substring contains '[' or ']', this for when there are muntiple Variables described in the question
                             {
-                                Debug6(subString);
+                                //Debug6(subString);
 
                                 //Check which kind of Variable it is and change it's value
                                 if (subString.Contains("FollowThrough"))
                                 {
                                     followThroughValue = subString.Replace("FollowThrough_Q", "");
-                                    Debug6(followThroughValue);
+                                    //Debug6(followThroughValue);
                                 }
 
                                 if (subString.Contains("V"))
                                 {
                                     valueChangeValue = subString.Replace("V", "");
-                                    Debug6(valueChangeValue);
+                                    //Debug6(valueChangeValue);
                                 }
                             }
                         }
                     }
                 }
             }
+
+            Debug4("Adding question '" + line[q] + "' with values f:" + followThroughValue + ", v: " + valueChangeValue + " to '" + characters[c].periods[p].codeName + "'.");
+
 
             characters[c].periods[p].questions.Add(new Question(line[q], false, int.Parse(followThroughValue), float.Parse(valueChangeValue))); //add question with the proper values, 666 is there was no variable.
 
@@ -362,18 +523,17 @@ public class GetCharacters_B : MonoBehaviour
                 Debug4("Found answer on line " + q + ": " + line[q]);
 
                 char i = line[q][2]; //Get the +A' '.x value
-                Debug5(i.ToString());
+                //Debug5(i.ToString());
 
                 foreach (Question question in characters[c].periods[p].questions)
                 {
-                    Debug5("Cheking if answer goes to " + question.Q);
+                    //Debug5("Cheking if answer goes to " + question.Q);
 
                     if (question.Q.Contains("+Q" + i))//check if the value of A is the same value of Q
                     {
-                        Debug6("Adding " + line[q] + " to " + question.Q);
 
                         //Get Variables value
-                        Debug6(line[q]);
+                        //Debug6(line[q]);
                         string[] followThrough = line[q].Split('[');
 
                         string qValue = "666";
@@ -385,36 +545,36 @@ public class GetCharacters_B : MonoBehaviour
                         {
                             if (line[q][cha] == '[') //Get the first '['
                             {
-                                Debug6("found [  at " + cha + " on line " + line[q]);
+                                //Debug6("found [  at " + cha + " on line " + line[q]);
 
                                 for (int ss = cha; ss < line[q].Length; ss++) //From the first '[' onwards
                                 {
                                     if (line[q][ss] == ']') //Count untill ']'
                                     {
-                                        Debug6("found ] at " + cha + " on line " + line[q]);
+                                        //Debug6("found ] at " + cha + " on line " + line[q]);
                                         string subString = line[q].Substring(cha + 1, (ss - cha - 1)); //get the string inbetween '[' and ']';
 
                                         if (!subString.Contains("[") || !subString.Contains("]")) //If the substring contains '[' or ']', this for when there are muntiple Variables described in the question
                                         {
-                                            Debug6(subString);
+                                            //Debug6(subString);
 
                                             //Check which kind of Variable it is and change it's value
                                             if (subString.Contains("Q"))
                                             {
                                                 qValue = subString.Replace("Q", "");
-                                                Debug6(qValue);
+                                                //Debug6(qValue);
                                             }
 
                                             if (subString.Contains("V"))
                                             {
                                                 vValue = subString.Replace("V", "");
-                                                Debug6(vValue);
+                                                //Debug6(vValue);
                                             }
 
                                             if (subString.Contains("SU"))
                                             {
                                                 suValue = subString.Replace("SU", "");
-                                                Debug6(suValue);
+                                                //Debug6(suValue);
                                             }
                                         }
                                     }
@@ -422,7 +582,10 @@ public class GetCharacters_B : MonoBehaviour
                             }
                         }
 
-                        question.answers.Add(new Answer(line[q], int.Parse(qValue) , float.Parse(vValue), int.Parse(suValue)));
+                        Debug6("Adding '" + line[q] + "' with values q:" + qValue + ", v:" + vValue + ", su: " + suValue + " to '" + question.Q + "'.");
+
+
+                        question.answers.Add(new Answer(line[q], int.Parse(qValue), float.Parse(vValue), int.Parse(suValue)));
                     }
                 }
             }
