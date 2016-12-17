@@ -12,10 +12,11 @@ public class Question {
 
     public List<Answer> answers = new List<Answer>();
 
-    public Question(string _Q, bool _hasBeenAnswered)
+    public Question(string _Q, bool _hasBeenAnswered, int _followThrough ,float _valueChange)
     {
         Q = _Q;
-        this.answered = _hasBeenAnswered;
-        
+        answered = _hasBeenAnswered;
+        valueChange = _valueChange;
+        followThrough = _followThrough;
     }
 }

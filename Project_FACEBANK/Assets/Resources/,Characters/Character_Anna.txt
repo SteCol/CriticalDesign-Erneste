@@ -11,27 +11,27 @@ info: Sister to Dave.
 [Dialog]
 [Period_1]
 +Q1 Hi.
-+A1.1  Hello! [Q2] [V+_2.5] [SU2]
-+A1.2  Hey [Q2] [V-_1.25]
-+A1.3  How u doin? [Q2] [V_0.8]
++A1.1  Hello! [Q2] [V+2.5] [SU2]
++A1.2  Hey [Q2] [V-1.25]
++A1.3  How u doin? [Q2] [V0.8]
 
-+Q2 I want to ask you something... [FollowThrough_[Q5]]
++Q2 I want to ask you something... [FollowThrough_Q5]
 
-+Q3 like WAY personal.
++Q3 like WAY personal. [V+1.2]
 +A3.1 WHat's up? 
 +A3.2 Can it wait, I'm busy...
 
-+Q4 How are you?
++Q4 How are you? [V+1.82]
 +A4.1  Doing alright, how are you?
 +A4.2  aThing
 
-+Q5 Something personal... [FollowThrough_[Q3]]
++Q5 Something personal... [FollowThrough_Q3] [V+0.3]
 
 [Period_2]
 +Q1 hOI
-+A1.1  Hi Temmi! [Q2] [V+_2.5] [SU2]
-+A1.2  Hey Temmi. [Q2] [V-_1.25]
-+A1.3  Oh god not again! [Q2] [V_0.8]
++A1.1  Hi Temmi! [Q2] [V+2.5] [SU2]
++A1.2  Hey Temmi. [Q2] [V-1.25]
++A1.3  Oh god not again! [Q2] [V0.8]
 
 [StatusUpdates]
 [Period_1]
