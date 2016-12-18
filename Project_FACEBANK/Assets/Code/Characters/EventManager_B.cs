@@ -124,11 +124,28 @@ public class EventManager_B : MonoBehaviour
 
                             foreach (Comment com in su.comments) {
                                 GameObject comment = (GameObject)Instantiate(commentPrefab, statusUpdate.GetComponent<SUScript>()._commentSection.transform.position, statusUpdate.GetComponent<SUScript>()._commentSection.transform.rotation);
-                                comment.transform.SetParent(statusUpdate.GetComponent<SUScript>()._commentSection.transform);
                                 comment.name = com.content;
+                                comment.transform.SetParent(statusUpdate.GetComponent<SUScript>()._commentSection.transform);
+
+                                comment.GetComponent<CScript>()._content.text = com.content;
+
+                                //Get commentor profilepic.
+                                string[] commentorNameArray  = com.content.Split(' ');
+                                string commentorName = commentorNameArray[1].Replace("[", "");
+                                commentorName = commentorName.Replace("]", "");
+                                print("CommentorName " + commentorName);
+
+                                //Get profilePic
+                                foreach (Character cha in getCharacter_B.characters) {
+                                    if (cha.name.Contains(commentorName)) {
+                                        comment.GetComponent<CScript>()._profilePic.sprite =  cha.profilePic;
+                                        break;
+                                    }
+                                }
+
+
 
                                 comment.transform.localScale = new Vector3(1, 1, 1);
-                                comment.GetComponent<CScript>()._content.text = com.content;
                             }
                         }
                     }

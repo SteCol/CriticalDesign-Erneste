@@ -36,10 +36,10 @@ info: Sister to Dave.
 [StatusUpdates]
 [Period_1]
 +SU1 OMG like this chainsaw is soooooo cure I want it.
-+C1.1 [Dave] Anna, ur a bitch LOL! XDXD
++C1.1 [Nina] Anna, ur a bitch LOL! XDXD
 +C1.2 [Steve] Oh shut up dave. That's indeed a very nice chainsaw Anna.
 +C1.3 [Anna] Loltrue dave XDXD *High five
-+C1.4 [Dave] *High Five
++C1.4 [Nina] *High Five
 +C1.5 [Steve] I hate both of you...
 
 [Period_3]
