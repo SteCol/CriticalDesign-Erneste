@@ -7,7 +7,7 @@ value: 72.6
 +F Sam
 
 [Dialog]
-[Period 1]
+[Period_1]
 +Q1 did you see my post? how do i look?
 
 +A1.1 Lookin' good, buddy! [Q2]

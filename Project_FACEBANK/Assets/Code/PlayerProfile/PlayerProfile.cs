@@ -31,16 +31,20 @@ public class PlayerProfile : MonoBehaviour
         possibleProfilePics = GetComponent<GetCharacters_B>().profilePics;
 
         UpdateInfo();
-        profilePicChoice.options.Clear();
-        profilePicChoice.AddOptions(possibleProfilePics);
         
+
     }
 
     void Update()
     {
         if (GetComponent<GetCharacters_B>().GetCharactersComplete)
-        if (name != nameInput.text || age != ageInput.text || info != infoInput.text)
-            UpdateInfo();
+        {
+            UpdateProfilePic();
+            if (name != nameInput.text || age != ageInput.text || info != infoInput.text)
+            {
+                UpdateInfo();
+            }
+        }
     }
 
     void UpdateInfo()
@@ -50,11 +54,14 @@ public class PlayerProfile : MonoBehaviour
         info = infoInput.text;
     }
 
-    public void UpdateProfilePic() {
-        //profilePicChoice.GetComponent<Image>().sprite = possibleProfilePics[profilePicChoice.GetComponent<Dropdown>().value];
+    public void UpdateProfilePic()
+    {
+        profilePicChoice.options.Clear();
+        profilePicChoice.AddOptions(possibleProfilePics);
     }
 
-    public void updateValue() {
+    public void updateValue()
+    {
         values.Insert(0, int.Parse(value));
     }
 }
