@@ -16,8 +16,6 @@ public class FriendsList : MonoBehaviour {
             tempText = tempText + c.name + "\n";
         }
         
-
         friendsList.text = tempText;
-
     }
 }

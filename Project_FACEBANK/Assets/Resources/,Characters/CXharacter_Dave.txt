@@ -36,13 +36,13 @@ info: Hi, I'm a guy called DD LOL AMIRITE!!!!
 [StatusUpdates]
 [Period_2]
 +SU1 P2_SU1
-+C1.1 P2_C1.1
-+C1.2 P2_C1.2
++C1.1 [Argelbragr] P2_C1.1
++C1.2 [Blargelbragr] P2_C1.2
 
 +SU2 P2_SU2
-+C2.1 P2_C2.1
-+C2.2 P2_C2.2
++C2.1 [Blargelbragr] P2_C2.1
++C2.2 [Argelbragr] P2_C2.2
 
 +SU3 P2_SU3
-+C3.1 P2_C3.1
-+C3.2 P2_C3.2
++C3.1 [Argelbragr] P2_C3.1
++C3.2 [Argelbragr] P2_C3.2

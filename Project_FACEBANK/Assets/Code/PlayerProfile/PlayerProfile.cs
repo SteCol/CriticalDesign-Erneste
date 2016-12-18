@@ -25,18 +25,17 @@ public class PlayerProfile : MonoBehaviour
     public List<Sprite> possibleProfilePics;
 
 
-    // Use this for initialization
     void Start()
     {
         value = Random.Range(70.0f, 130.0f).ToString();
         possibleProfilePics = GetComponent<GetCharacters_B>().profilePics;
 
-        //UpdateInfo();
+        UpdateInfo();
         profilePicChoice.options.Clear();
         profilePicChoice.AddOptions(possibleProfilePics);
         
     }
-    // Update is called once per frame
+
     void Update()
     {
         if (GetComponent<GetCharacters_B>().GetCharactersComplete)
