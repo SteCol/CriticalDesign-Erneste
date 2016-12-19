@@ -685,6 +685,17 @@ public class GetCharacters_B : MonoBehaviour
                 {
                     Debug4("Name matches " + characterName + " " + profilePicName);
                     c.profilePic = p;
+                    break;
+                }
+            }
+            if (c.profilePic == null)
+            {
+                foreach (Sprite p in profilePics) {
+                    if (p.name.Contains("Missing"))
+                    {
+                        c.profilePic = p;
+                        break;
+                    }
                 }
             }
         }

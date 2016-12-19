@@ -18,6 +18,8 @@ public class EventManager_B : MonoBehaviour
     public List<Character> characters;
 
     [Header("Chat")]
+    //public List<Character> friends;
+    public Dropdown friendsChat;
     public Question activeQuestion;
     public List<Question> possibleQuestions;
 
@@ -38,6 +40,7 @@ public class EventManager_B : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GetChat();
         UpdatePeriod();
     }
 
@@ -46,10 +49,11 @@ public class EventManager_B : MonoBehaviour
         if (prevPeriod != activePeriod)
         {
             print("Updating periods from " + prevPeriod + " to " + activePeriod);
-            GetChat();
             GetStatusUpdates();
             GenerateStatusUpdates();
             prevPeriod = activePeriod;
+            GenerateFriendsListOPtions();
+
         }
     }
 
@@ -62,9 +66,43 @@ public class EventManager_B : MonoBehaviour
                 foreach (Question q in p.questions)
                 {
                     //print("Found Q " + q.Q);
+                    //Each characters needs a start question, active question and past questions.
+                    //Q1 is the starting question
+                    //past questions are all the questions that have been answered.
+
+                    //Let's do this.
+
+                    if (q.Q.Contains("+Q1"))
+                    {
+                        q.send = true;
+                    }
+
+                    if (q.send == true && q.followThrough != 666)
+                    {
+                        q.answered = true;
+                        foreach (Question q2 in p.questions)
+                        {
+                            if (q2.Q.Contains("+Q" + q.followThrough))
+                            {
+                                q2.send = true;
+                            }
+                        }
+                    }
                 }
             }
         }
+    }
+
+    void GenerateFriendsListOPtions()
+    {
+        friendsChat.ClearOptions();
+
+        foreach (Character c in getCharacter_B.characters)
+        {
+            //Generate an option to chat with each character.
+            friendsChat.options.Add(new Dropdown.OptionData() { image = c.profilePic, text = c.name });
+        }
+
     }
 
     void GetStatusUpdates()
@@ -122,7 +160,8 @@ public class EventManager_B : MonoBehaviour
 
                             statusUpdate.transform.localScale = new Vector3(1, 1, 1);
 
-                            foreach (Comment com in su.comments) {
+                            foreach (Comment com in su.comments)
+                            {
                                 GameObject comment = (GameObject)Instantiate(commentPrefab, statusUpdate.GetComponent<SUScript>()._commentSection.transform.position, statusUpdate.GetComponent<SUScript>()._commentSection.transform.rotation);
                                 comment.name = com.content;
                                 comment.transform.SetParent(statusUpdate.GetComponent<SUScript>()._commentSection.transform);
@@ -130,21 +169,31 @@ public class EventManager_B : MonoBehaviour
                                 comment.GetComponent<CScript>()._content.text = com.content;
 
                                 //Get commentor profilepic.
-                                string[] commentorNameArray  = com.content.Split(' ');
+                                string[] commentorNameArray = com.content.Split(' ');
                                 string commentorName = commentorNameArray[1].Replace("[", "");
                                 commentorName = commentorName.Replace("]", "");
                                 print("CommentorName " + commentorName);
 
                                 //Get profilePic
-                                foreach (Character cha in getCharacter_B.characters) {
-                                    if (cha.name.Contains(commentorName)) {
-                                        comment.GetComponent<CScript>()._profilePic.sprite =  cha.profilePic;
+                                foreach (Character cha in getCharacter_B.characters)
+                                {
+                                    if (cha.name.Contains(commentorName))
+                                    {
+                                        comment.GetComponent<CScript>()._profilePic.sprite = cha.profilePic;
                                         break;
                                     }
+                                    else
+                                    {
+                                        foreach (Sprite pic in getCharacter_B.profilePics)
+                                        {
+                                            if (pic.name.Contains("Missing"))
+                                            {
+                                                c.profilePic = pic;
+                                                break;
+                                            }
+                                        }
+                                    }
                                 }
-
-
-
                                 comment.transform.localScale = new Vector3(1, 1, 1);
                             }
                         }
