@@ -6,6 +6,7 @@ using UnityEngine;
 public class Question {
     public string Q;
     public bool send;
+    public bool checkForAnswered = true;
     public bool answered;
     public int followThrough;
     public float valueChange;

@@ -9,6 +9,7 @@ public class EventManager_B : MonoBehaviour
 
     [Header("General")]
     public GetCharacters_B getCharacter_B;
+    public Character activeCharacter;
 
     [Header("Periods")]
     public int activePeriod;
@@ -17,11 +18,19 @@ public class EventManager_B : MonoBehaviour
     [Header("Periods")]
     public List<Character> characters;
 
-    [Header("Chat")]
+    [Header("Chat Friends")]
     //public List<Character> friends;
+    public bool generateFriendsDropdown;
     public Dropdown friendsChat;
+
+    [Header("Chat Actual")]
+    public GameObject chatWindow;
+    public Dropdown answerSelect;
+    public GameObject chatBubblePrefab;
     public Question activeQuestion;
     public List<Question> possibleQuestions;
+    public List<Question> pastQuestions;
+    public List<GameObject> pastQA;
 
 
     [Header("Notifications")]
@@ -35,13 +44,19 @@ public class EventManager_B : MonoBehaviour
     void Start()
     {
         activePeriod = 1;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        GetChat();
+        //UpdateQuestionSequence();
+        GenerateQuestions();
         UpdatePeriod();
+
+        ClearChatBubbles();
+        if (possibleQuestions.Count > 0)
+            InstantiateChatBubbles(possibleQuestions[0]);
     }
 
     void UpdatePeriod()
@@ -51,13 +66,39 @@ public class EventManager_B : MonoBehaviour
             print("Updating periods from " + prevPeriod + " to " + activePeriod);
             GetStatusUpdates();
             GenerateStatusUpdates();
-            prevPeriod = activePeriod;
-            GenerateFriendsListOPtions();
+            GetQuestions();
+            GenerateQuestions();
+            if (possibleQuestions.Count > 0)
+                InstantiateChatBubbles(possibleQuestions[0]);
 
+            bool periodExists = false;
+
+            foreach (Period p in activeCharacter.periods)
+            {
+                if (p.codeName.Contains("Period_" + activePeriod))
+                {
+                    periodExists = true;
+                    break;
+                }
+            }
+
+            if (!periodExists)
+                possibleQuestions = new List<Question>();
+
+
+            prevPeriod = activePeriod;
         }
+
+        if (generateFriendsDropdown && getCharacter_B.GetCharactersComplete)
+        {
+            GenerateFriendsListOptions();
+            GenerateQuestions();
+            generateFriendsDropdown = false;
+        }
+
     }
 
-    void GetChat()
+    void UpdateQuestionSequence()
     {
         foreach (Character c in getCharacter_B.characters)
         {
@@ -65,13 +106,7 @@ public class EventManager_B : MonoBehaviour
             {
                 foreach (Question q in p.questions)
                 {
-                    //print("Found Q " + q.Q);
-                    //Each characters needs a start question, active question and past questions.
-                    //Q1 is the starting question
-                    //past questions are all the questions that have been answered.
-
-                    //Let's do this.
-
+                    //gets the pastQA.
                     if (q.Q.Contains("+Q1"))
                     {
                         q.send = true;
@@ -85,6 +120,8 @@ public class EventManager_B : MonoBehaviour
                             if (q2.Q.Contains("+Q" + q.followThrough))
                             {
                                 q2.send = true;
+
+
                             }
                         }
                     }
@@ -93,7 +130,7 @@ public class EventManager_B : MonoBehaviour
         }
     }
 
-    void GenerateFriendsListOPtions()
+    void GenerateFriendsListOptions()
     {
         friendsChat.ClearOptions();
 
@@ -102,6 +139,155 @@ public class EventManager_B : MonoBehaviour
             //Generate an option to chat with each character.
             friendsChat.options.Add(new Dropdown.OptionData() { image = c.profilePic, text = c.name });
         }
+
+        friendsChat.value = 1;
+        friendsChat.value = 0;
+
+        if (possibleQuestions.Count > 0)
+            InstantiateChatBubbles(possibleQuestions[0]);
+
+
+    }
+
+    public void GetQuestions()
+    {
+        activeCharacter = getCharacter_B.characters[friendsChat.value];
+
+        int c = friendsChat.value;
+        //print("Fetching questions for " + getCharacter_B.characters[c].name);
+       
+
+        foreach (Period p in getCharacter_B.characters[c].periods)
+        {
+            string[] periodIndexArray = p.codeName.Split('_');
+            string periodIndex = periodIndexArray[1];
+
+            if (int.Parse(periodIndex) == activePeriod)
+            {
+                //foreach (Question q in p.questions)
+                //   print("Fetsching question " + q.Q);
+                possibleQuestions = p.questions;
+            }
+        }
+        if (getCharacter_B.characters[c].periods.Count == 0)
+        {
+            possibleQuestions = new List<Question>();
+        }
+
+    }
+
+    public void GenerateQuestions()
+    {
+
+        if (possibleQuestions.Count == 0)
+        {
+            activeQuestion = null;
+            answerSelect.ClearOptions();
+        }
+
+        foreach (Question q in possibleQuestions)
+        {
+
+            //bool hasBeenAnswered = false;
+
+            if (q.Q.Contains("+Q1 ") && q.answered != true) //Starting question.
+            {
+                activeQuestion = q;
+                //answerSelect.captionText.text = q.Q;
+                answerSelect.ClearOptions();
+                foreach (Answer a in q.answers)
+                    answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
+
+                activeQuestion.send = true;
+            }
+            else if (activeQuestion.answered && activeQuestion.followThrough != 666)
+            {
+                if (q.Q.Contains("+Q" + activeQuestion.followThrough + " "))
+                {
+                    activeQuestion = q;
+                    activeQuestion.send = true;
+                    activeQuestion.answered = true;
+
+                    answerSelect.ClearOptions();
+                    foreach (Answer a in q.answers)
+                        answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
+
+                }
+            }
+            else if (activeQuestion.answered && activeQuestion.followThrough == 666)
+            {
+                answerSelect.ClearOptions();
+                foreach (Answer a in q.answers)
+                    answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
+            }
+
+            if (activeQuestion.checkForAnswered && activeQuestion.followThrough != 666)
+            {
+                //print("waiting on answer");
+                pastQuestions.Add(activeQuestion);
+                activeQuestion.answered = true;
+                activeQuestion.checkForAnswered = false;
+
+            }
+
+            //answerSelect.ClearOptions();
+            //foreach (Answer a in q.answers)
+            //    answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
+        }
+
+    }
+
+    void ClearChatBubbles()
+    {
+        foreach (GameObject cb in GameObject.FindGameObjectsWithTag("ChatBubble"))
+        {
+            Destroy(cb);
+        }
+    }
+
+
+
+    void InstantiateChatBubbles(Question q)
+    {
+
+        //print("Instantiating" + q.Q + " from pastQuestions");
+        GameObject chatBubble = Instantiate(chatBubblePrefab, transform.position, transform.rotation);
+        chatBubble.transform.SetParent(chatWindow.transform);
+        chatBubble.transform.localScale = new Vector3(1, 1, 1);
+        chatBubble.name = q.Q;
+        chatBubble.GetComponent<ChatBubbleScript>().content.text = q.Q;
+        chatBubble.GetComponent<ChatBubbleScript>().profilePic.sprite = activeCharacter.profilePic;
+
+
+        if (q.followThrough != 666)
+        {
+            foreach (Question que in possibleQuestions)
+                if (que.Q.Contains("+Q" + q.followThrough + " "))
+                {
+                    InstantiateChatBubbles(que);
+                }
+        }
+        else if (q.followThrough == 666)
+        {
+            foreach (Answer a in q.answers)
+            {
+                if (a.wasUsed)
+                {
+                    foreach (Question que in possibleQuestions)
+                        if (que.Q.Contains("+Q" + a.nextQuestion.ToString() + " "))
+                        {
+                            InstantiateChatBubbles(que);
+                        }
+                }
+            }
+        }
+
+
+    }
+
+    void compareQuestions(Question q1, Question q2)
+    {
+        print("Comparing " + q1.Q + " and " + q2.Q);
 
     }
 
@@ -172,7 +358,7 @@ public class EventManager_B : MonoBehaviour
                                 string[] commentorNameArray = com.content.Split(' ');
                                 string commentorName = commentorNameArray[1].Replace("[", "");
                                 commentorName = commentorName.Replace("]", "");
-                                print("CommentorName " + commentorName);
+                                //print("CommentorName " + commentorName);
 
                                 //Get profilePic
                                 foreach (Character cha in getCharacter_B.characters)

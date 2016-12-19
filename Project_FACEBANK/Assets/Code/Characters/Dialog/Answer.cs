@@ -8,6 +8,7 @@ public class Answer {
     public int nextQuestion;
     public float valueChange;
     public int queueStatupUpdate;
+    public bool wasUsed = false;
 
     
     public Answer(string _A, int _nextQuestion, float _valueChange, int _queueStatusUpdate) {
