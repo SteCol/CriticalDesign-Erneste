@@ -10,6 +10,9 @@ public class EventManager_B : MonoBehaviour
     [Header("General")]
     public GetCharacters_B getCharacter_B;
     public Character activeCharacter;
+    public Character oldActiveCharacter;
+    public PlayerProfile playerProfile;
+    private float timer;
 
     [Header("Periods")]
     public int activePeriod;
@@ -26,11 +29,15 @@ public class EventManager_B : MonoBehaviour
     [Header("Chat Actual")]
     public GameObject chatWindow;
     public Dropdown answerSelect;
-    public GameObject chatBubblePrefab;
+    public GameObject questionBubblePrefab;
+    public GameObject answerBubblePrefab;
+
     public Question activeQuestion;
     public List<Question> possibleQuestions;
     public List<Question> pastQuestions;
     public List<GameObject> pastQA;
+
+    public bool UpdateEverything;
 
 
     [Header("Notifications")]
@@ -44,32 +51,69 @@ public class EventManager_B : MonoBehaviour
     void Start()
     {
         activePeriod = 1;
+        ClearChatBubbles();
+        if (possibleQuestions.Count > 0)
+        {
+            InstantiateChatBubbles(possibleQuestions[0]);
+        }
+
+        UpdateChat();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        //UpdateQuestionSequence();
-        GenerateQuestions();
-        UpdatePeriod();
+        if (UpdateEverything == true)
+        {
+            
 
-        ClearChatBubbles();
-        if (possibleQuestions.Count > 0)
-            InstantiateChatBubbles(possibleQuestions[0]);
+            print("UPDATING");
+            GetQuestions();
+            GenerateQuestions();
+            UpdatePeriod();
+
+            ClearChatBubbles();
+            if (possibleQuestions.Count > 0)
+            {
+                InstantiateChatBubbles(possibleQuestions[0]);
+            }
+
+            UpdateEverything = false;
+        }
+
+        //if (timer > 0.5f)
+        //{
+        //    GenerateQuestions();
+        //    timer = 0;
+        //}
+        //else {
+        //    timer = timer + 1 * Time.deltaTime;
+        //}
+    }
+
+
+    public void UpdateChat()
+    {
+        UpdateEverything = true;
     }
 
     void UpdatePeriod()
     {
         if (prevPeriod != activePeriod)
         {
-            print("Updating periods from " + prevPeriod + " to " + activePeriod);
-            GetStatusUpdates();
-            GenerateStatusUpdates();
-            GetQuestions();
-            GenerateQuestions();
             if (possibleQuestions.Count > 0)
+            {
+                print("Updating periods from " + prevPeriod + " to " + activePeriod);
+
+                GetStatusUpdates();
+                GenerateStatusUpdates();
+                GetQuestions();
+                GenerateQuestions();
+                ClearChatBubbles();
+                //GenerateOptions();
                 InstantiateChatBubbles(possibleQuestions[0]);
+            }
 
             bool periodExists = false;
 
@@ -120,8 +164,6 @@ public class EventManager_B : MonoBehaviour
                             if (q2.Q.Contains("+Q" + q.followThrough))
                             {
                                 q2.send = true;
-
-
                             }
                         }
                     }
@@ -132,6 +174,7 @@ public class EventManager_B : MonoBehaviour
 
     void GenerateFriendsListOptions()
     {
+        print("GenerateFriendsListOPtions");
         friendsChat.ClearOptions();
 
         foreach (Character c in getCharacter_B.characters)
@@ -140,17 +183,19 @@ public class EventManager_B : MonoBehaviour
             friendsChat.options.Add(new Dropdown.OptionData() { image = c.profilePic, text = c.name });
         }
 
+        GetQuestions();
+        GenerateQuestions();
+
         friendsChat.value = 1;
         friendsChat.value = 0;
 
         if (possibleQuestions.Count > 0)
             InstantiateChatBubbles(possibleQuestions[0]);
-
-
     }
 
     public void GetQuestions()
     {
+        print("GetQuestions");
         activeCharacter = getCharacter_B.characters[friendsChat.value];
 
         int c = friendsChat.value;
@@ -173,12 +218,11 @@ public class EventManager_B : MonoBehaviour
         {
             possibleQuestions = new List<Question>();
         }
-
     }
 
     public void GenerateQuestions()
     {
-
+        print("GenerateQuestions");
         if (possibleQuestions.Count == 0)
         {
             activeQuestion = null;
@@ -187,52 +231,62 @@ public class EventManager_B : MonoBehaviour
 
         foreach (Question q in possibleQuestions)
         {
-
-            //bool hasBeenAnswered = false;
-
             if (q.Q.Contains("+Q1 ") && q.answered != true) //Starting question.
             {
-                activeQuestion = q;
-                //answerSelect.captionText.text = q.Q;
-                ClearOptions(q);
-
+                GenerateOptions(q);
                 activeQuestion.send = true;
-            }
-            else if (activeQuestion.answered && activeQuestion.followThrough != 666)
-            {
-                if (q.Q.Contains("+Q" + activeQuestion.followThrough + " "))
-                {
-                    activeQuestion = q;
-                    activeQuestion.send = true;
-                    activeQuestion.answered = true;
+                activeQuestion = q;
 
-                    ClearOptions(q);
-                }
             }
-            else if (activeQuestion.answered && activeQuestion.followThrough == 666)
+            else if (q.Q.Contains("+Q1 ") && q.answered == true)
             {
-                ClearOptions(q);
+                //activeQuestion = possibleQuestions[0];
+            }
+
+            if (q.Q.Contains("+Q" + activeQuestion.followThrough + " ") && activeQuestion.answered && activeQuestion.followThrough != 666)
+            {
+                activeQuestion.answered = true;
+                activeQuestion.send = true;
+                activeQuestion = q;
+                q.send = true;
+                //activeQuestion.checkForAnswered = false;
+            }
+            else
+            {
+                GenerateOptions(q);
             }
 
             if (activeQuestion.checkForAnswered && activeQuestion.followThrough != 666)
             {
                 //print("waiting on answer");
+                activeQuestion = q;
+
                 pastQuestions.Add(activeQuestion);
                 activeQuestion.answered = true;
                 activeQuestion.checkForAnswered = false;
-
             }
+
+            GenerateOptions(q);
+
         }
+
+        GenerateOptions(activeQuestion);
     }
 
-    void ClearOptions(Question q) {
+    void GenerateOptions(Question q)
+    {
+        print("GenerateOptions");
         answerSelect.ClearOptions();
-        foreach (Answer a in q.answers)
-            answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
+        if (q.answers.Count > 0)
+        {
+            foreach (Answer a in q.answers)
+                answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
+        }
     }
 
     void ClearChatBubbles()
     {
+        print("ClearCHatBubbles");
         foreach (GameObject cb in GameObject.FindGameObjectsWithTag("ChatBubble"))
         {
             Destroy(cb);
@@ -241,6 +295,7 @@ public class EventManager_B : MonoBehaviour
 
     public void SendButton()
     {
+        print("SendButton");
         for (int a = 0; a < activeQuestion.answers.Count; a++)
         {
             if (answerSelect.value == a)
@@ -251,60 +306,82 @@ public class EventManager_B : MonoBehaviour
                 //activeQuestion = activeQuestion.answers[a].nextQuestion;
 
                 //Get the new question
-                foreach (Question q in possibleQuestions) {
+                foreach (Question q in possibleQuestions)
+                {
                     if (q.Q.Contains("+Q" + activeQuestion.answers[a].nextQuestion + " "))
                     {
-                        activeQuestion = q;
+                        activeQuestion.answered = true;
+                        activeQuestion.checkForAnswered = false;
                         activeQuestion.send = true;
-                        //activeQuestion.answered = true;
 
-                        ClearOptions(q);
+                        activeQuestion = q;
+
+                        GenerateQuestions();
+                        GenerateOptions(q);
                         break;
                     }
                 }
 
-                GenerateQuestions();
+                //GenerateQuestions();
             }
         }
 
+        GenerateQuestions();
+
+        if (possibleQuestions.Count > 0)
+            InstantiateChatBubbles(possibleQuestions[0]);
     }
 
-    void InstantiateChatBubbles(Question q)
+    void InstantiateChatBubbles(Question _question)
     {
-
+        print("InstantiateChatBubbles Q" + _question.Q);
         //print("Instantiating" + q.Q + " from pastQuestions");
-        GameObject chatBubble = Instantiate(chatBubblePrefab, transform.position, transform.rotation);
+
+        GameObject chatBubble = Instantiate(questionBubblePrefab, transform.position, transform.rotation);
         chatBubble.transform.SetParent(chatWindow.transform);
         chatBubble.transform.localScale = new Vector3(1, 1, 1);
-        chatBubble.name = q.Q;
-        chatBubble.GetComponent<ChatBubbleScript>().content.text = q.Q;
+        chatBubble.name = _question.Q;
+        chatBubble.GetComponent<ChatBubbleScript>().content.text = _question.Q;
         chatBubble.GetComponent<ChatBubbleScript>().profilePic.sprite = activeCharacter.profilePic;
 
-
-        if (q.followThrough != 666)
+        if (_question.followThrough != 666)
         {
             foreach (Question que in possibleQuestions)
-                if (que.Q.Contains("+Q" + q.followThrough + " "))
+                if (que.Q.Contains("+Q" + _question.followThrough + " "))
                 {
                     InstantiateChatBubbles(que);
+                    break;
                 }
         }
-        else if (q.followThrough == 666)
+        else if (_question.followThrough == 666)
         {
-            foreach (Answer a in q.answers)
+            foreach (Answer a in _question.answers)
             {
                 if (a.wasUsed)
                 {
+                    InstantiateAnswerbubble(a);
                     foreach (Question que in possibleQuestions)
                         if (que.Q.Contains("+Q" + a.nextQuestion.ToString() + " "))
                         {
+                            //InstantiateChatBubbles(que, a.A);
                             InstantiateChatBubbles(que);
+                            break;
                         }
+                    break;
                 }
             }
         }
+    }
 
-
+    void InstantiateAnswerbubble(Answer _answer)
+    {
+        print("InstantiateAnswerBubble " + _answer.A);
+        GameObject chatBubble = Instantiate(answerBubblePrefab, transform.position, transform.rotation);
+        chatBubble.transform.SetParent(chatWindow.transform);
+        chatBubble.transform.localScale = new Vector3(1, 1, 1);
+        chatBubble.name = _answer.A;
+        chatBubble.GetComponent<ChatBubbleScript>().content.text = _answer.A;
+        chatBubble.GetComponent<ChatBubbleScript>().profilePic.sprite = playerProfile.profilePic;
     }
 
     void compareQuestions(Question q1, Question q2)
@@ -315,6 +392,7 @@ public class EventManager_B : MonoBehaviour
 
     void GetStatusUpdates()
     {
+        print("GetStatusUpdates");
         statusUpdatesToShow.Clear();
         foreach (Character c in getCharacter_B.characters)
         {
@@ -337,6 +415,7 @@ public class EventManager_B : MonoBehaviour
 
     void GenerateStatusUpdates()
     {
+        print("GenerateStatusUpdates");
         foreach (GameObject su in GameObject.FindGameObjectsWithTag("StatusUpdate"))
         {
             Destroy(su);
@@ -413,11 +492,13 @@ public class EventManager_B : MonoBehaviour
 
     public void MoveForwardPeriod()
     {
+        print("MoveForwardPeriod");
         activePeriod++;
     }
 
     public void MoveBackPeriod()
     {
+        print("MoveBackPeriod");
         activePeriod--;
 
     }
