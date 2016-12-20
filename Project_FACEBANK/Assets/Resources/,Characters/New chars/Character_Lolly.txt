@@ -6,8 +6,11 @@ value: 83.7
 [Friends]
 +F Brook
 +F Nina
++F Joseph
 
 [Dialog]
 
 
 [StatusUpdates]
+[Period_1]
++SU another day at the job... hurray x.x

@@ -11,6 +11,7 @@ value: 133.9
 [Dialog]
 
 [StatusUpdates]
-+SU Busy day at the shop!
+[Period_1]
++SU Another day at the shop with best, one-and-only employee! - with Nina
 
-+SU Sigh... Can't keep up with all the orders.
+[Period_2]

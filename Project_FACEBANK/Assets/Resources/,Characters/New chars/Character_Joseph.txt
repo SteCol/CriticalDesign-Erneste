@@ -1,12 +1,14 @@
 [Info]
-name: Joseph
-age: 28
-value: 72.6
+Joseph
+28
+72.6
 
 [Friends]
 +F Sam
++F Lolly
 
 [Dialog]
+
 [Period_1]
 +Q1 did you see my post? how do i look?
 
@@ -26,33 +28,53 @@ value: 72.6
 +A3.2 I know you do, and it's a nice tie, but you should look a little more professional at your interview. [Q14]
 +A3.3 Fine. Be stubborn. I couldn't care less. [Q10]
 
-+Q4 i thought you would be more excited about this [FollowThrough_Q5]
-+Q5 whatever [FollowThrough_Q6]
-+Q6 bye [V-7.3]
++Q4 i thought you would be more excited about this [FollowThrough [Q5]]
++Q5 whatever [[FollowThrough [Q6]]
++Q6 bye [V- 7.3]
 
-+Q7 yessss! i will!! thank you!!! [FollowThrough_Q8]
++Q7 yessss! i will!! thank you!!! [FollowThrough [Q8]]
 +Q8 i gotta go now! wish me luck!
 	
 +A8.1 Good luck! :)
 +A8.2 Bye
 
++Q10 wow, thats a rude thing to say [FollowThrough [Q11]]
++Q11 i didn't expect this from you [FollowThrough [Q12]]
++Q12 fine, ill do fine without your support [FollowThrough[Q13]]
++Q13 bye [V- 5.3]
+
 +Q9 P1_Q9
 +A9.1 Bye!
 
-+Q10 wow, thats a rude thing to say [FollowThrough_Q11]
-+Q11 i didn't expect this from you [FollowThrough_Q12]
-+Q12 fine, ill do fine without your support [FollowThrough_Q13]
-+Q13 bye
-
-+Q14 i guess you're right... i have to make sure i look my best [FollowThrough_Q15]
-+Q15 thank u for being honest [FollowThrough_Q16]
-+Q16 i really appreciate it [FollowThrough_Q17]
-+Q17 thanks for being a friend :-) [FollowThrough_Q18]
++Q14 i guess you're right... i have to make sure i look my best [FollowThrough [Q15]]
++Q15 thank u for being honest [FollowThrough [Q16]]
++Q16 i really appreciate it [FollowThrough [Q17]]
++Q17 thanks for being a friend :-) [FollowThrough [Q18]]
 +Q18 gotta go now! thanks again!
 
+[Period_2]
++Q1 job interview didnt go well :-(
+
++A1.1 Ah man, that sucks! So sorry :( [Q2] [V+ 0.5]
++A1.2 Better luck next time! [Q2]
++A1.3 Well, what did you honestly expect? [Q4]
+
++Q2 thanks [FollowThrough[Q3]]
++Q3 im just getting really demotivated, you know?
+
++A3.1 I know, but you have to keep fighting.
++A3.2 
+
++Q4 that id get the job? [FollowThrough [Q5]]
++Q5 why are you so mean to me? what did i ever do to you? [FollowThrough [Q6]]
++Q6 you know what, fuck this [FollowThrough [Q7]]
++Q7 i dont need you [V- 9.7]
+
 [StatusUpdates]
+[Period_1]
 +SU getting ready for my next job interview!
 
-+SU didnt get the job :-( [V-11.5]
+[Period_2]
++SU didnt get the job :-( [V- 11.5]
 
 +SU anyone know about any job applications??
