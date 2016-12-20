@@ -36,6 +36,9 @@ value: 72.6
 +A8.1 Good luck! :)
 +A8.2 Bye
 
++Q9 P1_Q9
++A9.1 Bye!
+
 +Q10 wow, thats a rude thing to say [FollowThrough_Q11]
 +Q11 i didn't expect this from you [FollowThrough_Q12]
 +Q12 fine, ill do fine without your support [FollowThrough_Q13]

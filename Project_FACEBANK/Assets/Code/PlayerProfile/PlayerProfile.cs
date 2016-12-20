@@ -58,6 +58,11 @@ public class PlayerProfile : MonoBehaviour
     {
         profilePicChoice.options.Clear();
         profilePicChoice.AddOptions(possibleProfilePics);
+
+        for (int s = 0; s < possibleProfilePics.Count; s++)
+        {
+            profilePic = possibleProfilePics[profilePicChoice.value];
+        }
     }
 
     public void updateValue()
