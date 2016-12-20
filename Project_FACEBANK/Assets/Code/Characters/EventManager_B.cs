@@ -155,7 +155,7 @@ public class EventManager_B : MonoBehaviour
 
         int c = friendsChat.value;
         //print("Fetching questions for " + getCharacter_B.characters[c].name);
-       
+
 
         foreach (Period p in getCharacter_B.characters[c].periods)
         {
@@ -194,9 +194,7 @@ public class EventManager_B : MonoBehaviour
             {
                 activeQuestion = q;
                 //answerSelect.captionText.text = q.Q;
-                answerSelect.ClearOptions();
-                foreach (Answer a in q.answers)
-                    answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
+                ClearOptions(q);
 
                 activeQuestion.send = true;
             }
@@ -208,17 +206,12 @@ public class EventManager_B : MonoBehaviour
                     activeQuestion.send = true;
                     activeQuestion.answered = true;
 
-                    answerSelect.ClearOptions();
-                    foreach (Answer a in q.answers)
-                        answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
-
+                    ClearOptions(q);
                 }
             }
             else if (activeQuestion.answered && activeQuestion.followThrough == 666)
             {
-                answerSelect.ClearOptions();
-                foreach (Answer a in q.answers)
-                    answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
+                ClearOptions(q);
             }
 
             if (activeQuestion.checkForAnswered && activeQuestion.followThrough != 666)
@@ -229,12 +222,13 @@ public class EventManager_B : MonoBehaviour
                 activeQuestion.checkForAnswered = false;
 
             }
-
-            //answerSelect.ClearOptions();
-            //foreach (Answer a in q.answers)
-            //    answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
         }
+    }
 
+    void ClearOptions(Question q) {
+        answerSelect.ClearOptions();
+        foreach (Answer a in q.answers)
+            answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
     }
 
     void ClearChatBubbles()
@@ -245,7 +239,35 @@ public class EventManager_B : MonoBehaviour
         }
     }
 
+    public void SendButton()
+    {
+        for (int a = 0; a < activeQuestion.answers.Count; a++)
+        {
+            if (answerSelect.value == a)
+            {
+                //InstantiateChatBubbles(activeQuestion);
+                activeQuestion.answers[a].wasUsed = true;
+                activeQuestion.answered = true;
+                //activeQuestion = activeQuestion.answers[a].nextQuestion;
 
+                //Get the new question
+                foreach (Question q in possibleQuestions) {
+                    if (q.Q.Contains("+Q" + activeQuestion.answers[a].nextQuestion + " "))
+                    {
+                        activeQuestion = q;
+                        activeQuestion.send = true;
+                        //activeQuestion.answered = true;
+
+                        ClearOptions(q);
+                        break;
+                    }
+                }
+
+                GenerateQuestions();
+            }
+        }
+
+    }
 
     void InstantiateChatBubbles(Question q)
     {
