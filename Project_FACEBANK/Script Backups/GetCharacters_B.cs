@@ -254,7 +254,7 @@ public class GetCharacters_B : MonoBehaviour
 
                             for (int q = characters[c].periods[characters[c].periods.Count - 1].periodLineIndex; q < characters[c].statusUpdatesLineIndex; q++)//read the lines between last period and [statusUpdates]
                             {
-                                Debug5(" Checking between line " + characters[c].periods[p].periodLineIndex + " & " + characters[c].periods[p + 1].periodLineIndex + ", line " + q);
+                                Debug5(" Checking between line " + characters[c].periods[characters[c].periods.Count - 1].periodLineIndex + " & " + characters[c].statusUpdatesLineIndex + ", line " + q);
 
                                 CycleDebug(characters[c].periods[characters[c].periods.Count - 1].codeName, "checking line", q);
                                 GetQuestions(line, c, q, (characters[c].periods.Count - 1));
@@ -536,7 +536,7 @@ public class GetCharacters_B : MonoBehaviour
                 {
                     //Debug5("Cheking if answer goes to " + question.Q);
 
-                    if (question.Q.Contains("+Q" + i))//check if the value of A is the same value of Q
+                    if (question.Q.Contains("+Q" + i ))//check if the value of A is the same value of Q
                     {
 
                         //Get Variables value
@@ -591,7 +591,7 @@ public class GetCharacters_B : MonoBehaviour
 
                         Debug6("Adding '" + line[q] + "' with values q:" + qValue + ", v:" + vValue + ", su: " + suValue + " to '" + question.Q + "'.");
 
-
+                        if (line[q].Contains("+A" + i + ".")) ;
                         question.answers.Add(new Answer(line[q], int.Parse(qValue), float.Parse(vValue), int.Parse(suValue)));
                     }
                 }

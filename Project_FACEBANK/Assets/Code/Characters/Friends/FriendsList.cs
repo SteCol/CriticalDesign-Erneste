@@ -11,7 +11,7 @@ public class FriendsList : MonoBehaviour {
     public Text friendsList;
 
     public void UpdateFriendsList() {
-        foreach (Character c in GetComponent<GetCharacters_B>().characters) {
+        foreach (Character c in GetComponent<GetCharacters_C>().characters) {
             string cleanName = c.name.Replace("name:", "");
             friends.Add(cleanName);
             tempText = tempText + cleanName + "\n";

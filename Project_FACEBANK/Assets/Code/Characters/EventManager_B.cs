@@ -8,7 +8,7 @@ public class EventManager_B : MonoBehaviour
 {
 
     [Header("General")]
-    public GetCharacters_B getCharacter_B;
+    public GetCharacters_C getCharacter_B;
     public Character activeCharacter;
     public Character oldActiveCharacter;
     public PlayerProfile playerProfile;
@@ -294,7 +294,7 @@ public class EventManager_B : MonoBehaviour
                             {
                                 if (s.Contains("+A") || s.Contains("["))
                                 {
-                                    print("Sorry, s contains bad char");
+                                    //print("Sorry, s contains bad char");
                                 }
                                 else {
                                     newSentence = newSentence + s + " ";
@@ -327,17 +327,28 @@ public class EventManager_B : MonoBehaviour
     public void SendButton()
     {
 
-        //doTheValueStuff.
-
+        
         DebugSplit("SendButton");
         for (int a = 0; a < activeQuestion.answers.Count; a++)
         {
             if (answerSelect.value == a)
             {
+
+                //doTheValueStuff.
+                if (activeQuestion.answers[a].valueChange != 666)
+                {
+                    print("ADDING VALUE " + activeQuestion.answers[a].valueChange + " WOOOOOOOOOO!!!!");
+
+                    playerProfile.value = playerProfile.value + activeQuestion.answers[a].valueChange;
+                    playerProfile.AddValue(activeQuestion.answers[a].valueChange);
+                    playerProfile.AddValue(playerProfile.value);
+                    playerProfile.UpdateInfo();
+
+                    //playerProfile.addNewValue = true;
+                }
+
                 activeQuestion.answers[a].wasUsed = true;
                 activeQuestion.answered = true;
-
-                
 
                 //Get the new question
                 foreach (Question q in possibleQuestions)
@@ -355,16 +366,7 @@ public class EventManager_B : MonoBehaviour
                     }
                 }
 
-                if (activeQuestion.answers[a].valueChange != 666)
-                {
-                    print("ADDING VALUE " + activeQuestion.answers[a].valueChange + " WOOOOOOOOOO!!!!");
-
-                    playerProfile.value = playerProfile.value + activeQuestion.answers[a].valueChange;
-                    //playerProfile.UpdateInfo();
-                    playerProfile.AddValue(activeQuestion.answers[a].valueChange);
-                    playerProfile.AddValue(playerProfile.value);
-                    //playerProfile.addNewValue = true;
-                }
+                
             }
         }
 
@@ -374,7 +376,19 @@ public class EventManager_B : MonoBehaviour
         if (possibleQuestions.Count > 0)
             InstantiateChatBubbles(possibleQuestions[0]);
 
-}
+        if (activeQuestion.valueChange != 666)
+        {
+            print("ADDING VALUE " + activeQuestion.valueChange + " WOOOOOOOOOO!!!!");
+
+            playerProfile.value = playerProfile.value + activeQuestion.valueChange;
+            playerProfile.AddValue(activeQuestion.valueChange);
+            playerProfile.AddValue(playerProfile.value);
+            //playerProfile.UpdateInfo();
+
+            //playerProfile.addNewValue = true;
+        }
+
+    }
 
     void InstantiateChatBubbles(Question _question)
     {
@@ -396,7 +410,7 @@ public class EventManager_B : MonoBehaviour
             foreach (string s in sentenceArray) {
                 if (s.Contains("+Q") || s.Contains("["))
                 {
-                    print("Sorry, s contains bad char");
+                    //print("Sorry, s contains bad char");
                 }
                 else {
                     newSentence = newSentence + s + " ";
@@ -458,10 +472,9 @@ public class EventManager_B : MonoBehaviour
 
             foreach (string s in sentenceArray)
             {
-                print("Checking string " + s);
                 if (s.Contains("+A") || s.Contains("["))
                 {
-                    print("Sorry, s contains bad char");
+                    //print("Sorry, s contains bad char");
                 }
                 else {
 
@@ -549,10 +562,9 @@ public class EventManager_B : MonoBehaviour
 
                                 foreach (string s in sentenceArray)
                                 {
-                                    print("Checking string " + s);
                                     if (s.Contains("+SU") || s.Contains("["))
                                     {
-                                        print("Sorry, s contains bad char");
+                                        //print("Sorry, s contains bad char");
                                     }
                                     else {
                                         newSentence = newSentence + s + " ";

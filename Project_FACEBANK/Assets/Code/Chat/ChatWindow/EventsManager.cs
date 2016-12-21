@@ -18,7 +18,7 @@ public class EventsManager : MonoBehaviour
     public string statusUpdate;
 
     [Header("")]
-    public GetCharacters_B getCharacters;
+    public GetCharacters_C getCharacters;
     public NotificationManager notificationManager;
 
     [Header("Period Control")]
