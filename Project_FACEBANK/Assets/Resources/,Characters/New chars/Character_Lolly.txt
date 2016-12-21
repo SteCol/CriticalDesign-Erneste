@@ -14,7 +14,7 @@ value: 83.7
 +Q1 hey... u got some time to talk? >.<
 
 +A1.1 Yeah, sure. What's up? [Q2]
-+A1.2 Kinda busy right now
++A1.2 Kinda busy right now [Q23]
 
 +Q2 i've been thinking about starting my own business...
 
@@ -28,31 +28,61 @@ value: 83.7
 
 +A5.1 Then don't do it? [Q6]
 +A5.2 I'm sure she'd understand. [Q7]
-+A5.3 It's not like she really needs you anyway.
++A5.3 It's not like she really needs you anyway. [Q25]
 
 +Q6 but i want tooooo!!! TToTT
 
-+A6.1 Don't be such a brat.
++A6.1 Don't be such a brat. [Q26]
 +A6.2 What's this business about anyway? [Q9]
 
 +Q7 yeah, probably. she's too nice <3 [FollowThrough_Q8]
 +Q8 let me tell u more about my business idea though [FollowThrough_Q9]
 +Q9 i want to start... [FollowThrough_Q10]
-+Q10 ... wait for it.... 
++Q10 ... wait for it.... [FollowThrough_Q11]
 +Q11 drumroll please!
 
-+A11.1 Cut the crap, Lolly.
-+A11.2 *drumrolls*
-+A11.3 Get it over with already... -_-
++A11.1 Cut the crap, Lolly. [Q12]
++A11.2 *drumrolls* [Q12]
++A11.3 Get it over with already... -_- [Q12]
 
 +Q12 a candy shop!
 
-+A12.1 What?
-+A12.2 Whaaaat?!
-+A12.3 WHAAAAATTT?!?!
++A12.1 What?! [Q13]
++A12.2 Whaaaat?! [Q13]
++A12.3 WHAAAAATTT?!?! [Q13]
+
++Q13 right? hehe ^-^ [FollowThrough_Q14]
++Q14 it's going to be so cute! [FollowThrough_Q15]
++Q15 i've been wanting to do this ever since I was a little kid <3
+
++A15.1 Then go for it! You'll do great! [Q16]
++A15.2 Just don't make any rash decisions :) [Q20]
++A15.3 I don't think you can do this. [Q27]
+
++Q16 thank u!!! [FollowThrough_Q17]
++Q17 i'm going to talk to nina [FollowThrough_Q18]
++Q18 thx for being awesum ^o^ [FollowThrough_Q19]
++Q19 cya!
+
++Q20 i have thought this thru, i promise [FollowThrough_Q21]
++Q21 i gotta go now, i'm going to talk to nina [FollowThrough_Q22]
++Q22 cya!
+
++Q23 oh... okay [FollowThrough_Q24]
++Q24 talk to you later then
+
++Q25 oh wow [FollowThrough_Q26]
++Q26 you're such a jerk [FollowThrough_Q27]
++Q27 i thought i could count on your support [FollowThrough_Q28]
++Q28 i guess i was wrong [FollowThrough_Q29]
++Q29 bye [FollowThrough_Q30]
++Q30 asshole
 
 [StatusUpdates]
 [Period_1]
 +SU another day at the job... hurray x.o
 
 +SU love my girl nina though <3333
+
+[Period_2]
++SU i have decided to quit my job and start my own business as a candy shop owner, wish me luck!!! <3
