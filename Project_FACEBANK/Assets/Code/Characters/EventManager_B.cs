@@ -16,6 +16,7 @@ public class EventManager_B : MonoBehaviour
 
     [Header("Debugging")]
     public bool debug;
+    public bool inculeIdentifiers;
 
     [Header("Periods")]
     public int activePeriod;
@@ -31,6 +32,7 @@ public class EventManager_B : MonoBehaviour
 
     [Header("Chat Actual")]
     public GameObject chatWindow;
+    public ScrollRect myScrollRect;
     public Dropdown answerSelect;
     public GameObject questionBubblePrefab;
     public GameObject answerBubblePrefab;
@@ -83,6 +85,8 @@ public class EventManager_B : MonoBehaviour
 
             GetStatusUpdates();
             GenerateStatusUpdates();
+
+            myScrollRect.verticalNormalizedPosition = 0.0f;
 
             UpdateEverything = false;
         }
@@ -172,7 +176,10 @@ public class EventManager_B : MonoBehaviour
         foreach (Character c in getCharacter_B.characters)
         {
             //Generate an option to chat with each character.
-            friendsChat.options.Add(new Dropdown.OptionData() { image = c.profilePic, text = c.name });
+            string newName = c.name.Replace("name: ", "");
+
+
+            friendsChat.options.Add(new Dropdown.OptionData() { image = c.profilePic, text = newName });
         }
 
         GetQuestions();
@@ -275,7 +282,34 @@ public class EventManager_B : MonoBehaviour
                 if (q.answers.Count > 0)
                 {
                     foreach (Answer a in q.answers)
-                        answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
+                    {
+                        if (!inculeIdentifiers)
+                        {
+                            //Clean sentence
+                            string sentence = a.A;
+                            string[] sentenceArray = sentence.Split(' ');
+                            string newSentence = "";
+
+                            foreach (string s in sentenceArray)
+                            {
+                                if (s.Contains("+A") || s.Contains("["))
+                                {
+                                    print("Sorry, s contains bad char");
+                                }
+                                else {
+                                    newSentence = newSentence + s + " ";
+                                }
+                            }
+
+                            answerSelect.options.Add(new Dropdown.OptionData { text = newSentence });
+                        }
+                        else {
+                            answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
+                        }
+
+
+
+                    }
                 }
             }
         }
@@ -303,6 +337,8 @@ public class EventManager_B : MonoBehaviour
                 activeQuestion.answers[a].wasUsed = true;
                 activeQuestion.answered = true;
 
+                
+
                 //Get the new question
                 foreach (Question q in possibleQuestions)
                 {
@@ -318,6 +354,17 @@ public class EventManager_B : MonoBehaviour
                         break;
                     }
                 }
+
+                if (activeQuestion.answers[a].valueChange != 666)
+                {
+                    print("ADDING VALUE " + activeQuestion.answers[a].valueChange + " WOOOOOOOOOO!!!!");
+
+                    playerProfile.value = playerProfile.value + activeQuestion.answers[a].valueChange;
+                    //playerProfile.UpdateInfo();
+                    playerProfile.AddValue(activeQuestion.answers[a].valueChange);
+                    playerProfile.AddValue(playerProfile.value);
+                    //playerProfile.addNewValue = true;
+                }
             }
         }
 
@@ -326,7 +373,8 @@ public class EventManager_B : MonoBehaviour
 
         if (possibleQuestions.Count > 0)
             InstantiateChatBubbles(possibleQuestions[0]);
-    }
+
+}
 
     void InstantiateChatBubbles(Question _question)
     {
@@ -337,7 +385,29 @@ public class EventManager_B : MonoBehaviour
         chatBubble.transform.SetParent(chatWindow.transform);
         chatBubble.transform.localScale = new Vector3(1, 1, 1);
         chatBubble.name = _question.Q;
-        chatBubble.GetComponent<ChatBubbleScript>().content.text = _question.Q;
+
+        if (!inculeIdentifiers)
+        {
+            //Clean sentence
+            string sentence = _question.Q;
+            string[] sentenceArray = sentence.Split(' ');
+            string newSentence = "";
+
+            foreach (string s in sentenceArray) {
+                if (s.Contains("+Q") || s.Contains("["))
+                {
+                    print("Sorry, s contains bad char");
+                }
+                else {
+                    newSentence = newSentence + s + " ";
+                }
+            }
+
+            chatBubble.GetComponent<ChatBubbleScript>().content.text = newSentence;
+        }
+        else {
+            chatBubble.GetComponent<ChatBubbleScript>().content.text = _question.Q;
+        }
         chatBubble.GetComponent<ChatBubbleScript>().profilePic.sprite = activeCharacter.profilePic;
 
         if (_question.followThrough != 666)
@@ -378,7 +448,34 @@ public class EventManager_B : MonoBehaviour
         chatBubble.transform.SetParent(chatWindow.transform);
         chatBubble.transform.localScale = new Vector3(1, 1, 1);
         chatBubble.name = _answer.A;
-        chatBubble.GetComponent<ChatBubbleScript>().content.text = _answer.A;
+
+        if (!inculeIdentifiers)
+        {
+            //Clean sentence
+            string sentence = _answer.A;
+            string[] sentenceArray = sentence.Split(' ');
+            string newSentence = "";
+
+            foreach (string s in sentenceArray)
+            {
+                print("Checking string " + s);
+                if (s.Contains("+A") || s.Contains("["))
+                {
+                    print("Sorry, s contains bad char");
+                }
+                else {
+
+                    newSentence = newSentence + s + " ";
+                }
+            }
+
+            chatBubble.GetComponent<ChatBubbleScript>().content.text = newSentence;
+        }
+        else {
+            chatBubble.GetComponent<ChatBubbleScript>().content.text = _answer.A;
+
+        }
+
         chatBubble.GetComponent<ChatBubbleScript>().profilePic.sprite = playerProfile.profilePic;
     }
 
@@ -441,7 +538,35 @@ public class EventManager_B : MonoBehaviour
 
                             statusUpdate.GetComponent<SUScript>()._name.text = posterName;
                             statusUpdate.GetComponent<SUScript>()._profilePic.sprite = c.profilePic;
-                            statusUpdate.GetComponent<SUScript>()._content.text = su.content;
+
+
+                            if (!inculeIdentifiers)
+                            {
+                                //Clean sentence
+                                string sentence = su.content;
+                                string[] sentenceArray = sentence.Split(' ');
+                                string newSentence = "";
+
+                                foreach (string s in sentenceArray)
+                                {
+                                    print("Checking string " + s);
+                                    if (s.Contains("+SU") || s.Contains("["))
+                                    {
+                                        print("Sorry, s contains bad char");
+                                    }
+                                    else {
+                                        newSentence = newSentence + s + " ";
+                                    }
+                                }
+
+                                statusUpdate.GetComponent<SUScript>()._content.text = newSentence;
+                            }
+                            else {
+                                statusUpdate.GetComponent<SUScript>()._content.text = su.content;
+
+                            }
+
+                            //statusUpdate.GetComponent<SUScript>()._content.text = su.content;
 
                             statusUpdate.transform.localScale = new Vector3(1, 1, 1);
 

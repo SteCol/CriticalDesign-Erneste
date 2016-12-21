@@ -64,7 +64,7 @@ public class PlayerProfile : MonoBehaviour
         }
     }
 
-    void UpdateInfo()
+    public void UpdateInfo()
     {
         playerName = nameInput.text;
         age = ageInput.text;
@@ -91,6 +91,10 @@ public class PlayerProfile : MonoBehaviour
 
     public void AddValue(float _value) {
         values.Insert(0, _value);
+        updateValue = true;
+        print("Adding value " + _value + " | PlayerValue is now " + value);
+
+
     }
 
     public void UpdateValue()
