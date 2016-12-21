@@ -9,7 +9,12 @@ value: 83.7
 +F Joseph
 
 [Dialog]
+[Period_1]
 
++Q1 hey... u got some time to talk? >.<
+
++A1.1 Yeah, sure. What's up?
++A1.2
 
 [StatusUpdates]
 [Period_1]
