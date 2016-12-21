@@ -14,6 +14,9 @@ public class EventManager_B : MonoBehaviour
     public PlayerProfile playerProfile;
     private float timer;
 
+    [Header("Debugging")]
+    public bool debug;
+
     [Header("Periods")]
     public int activePeriod;
     private int prevPeriod;
@@ -50,28 +53,25 @@ public class EventManager_B : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Debug1("//////////////////////////////////////////////////////////////////////// EVENT MANAGER START ////////////////////////////////////////////////////////////////////////");
+
         activePeriod = 1;
-        ClearChatBubbles();
-        if (possibleQuestions.Count > 0)
-        {
-            InstantiateChatBubbles(possibleQuestions[0]);
-        }
-
         UpdateChat();
+        GetStatusUpdates();
+        GenerateStatusUpdates();
 
+        Debug1("////////////////////////////////////////////////////////////////////////");
     }
 
     // Update is called once per frame
     void Update()
     {
+        UpdatePeriod();
+
         if (UpdateEverything == true)
         {
-            
-
-            print("UPDATING");
             GetQuestions();
             GenerateQuestions();
-            UpdatePeriod();
 
             ClearChatBubbles();
             if (possibleQuestions.Count > 0)
@@ -79,22 +79,19 @@ public class EventManager_B : MonoBehaviour
                 InstantiateChatBubbles(possibleQuestions[0]);
             }
 
+            GenerateOptions(activeQuestion);
+
+            GetStatusUpdates();
+            GenerateStatusUpdates();
+
             UpdateEverything = false;
         }
-
-        //if (timer > 0.5f)
-        //{
-        //    GenerateQuestions();
-        //    timer = 0;
-        //}
-        //else {
-        //    timer = timer + 1 * Time.deltaTime;
-        //}
     }
 
 
     public void UpdateChat()
     {
+        DebugSplit("UPDATING CHAT");
         UpdateEverything = true;
     }
 
@@ -104,15 +101,11 @@ public class EventManager_B : MonoBehaviour
         {
             if (possibleQuestions.Count > 0)
             {
-                print("Updating periods from " + prevPeriod + " to " + activePeriod);
+                DebugSplit2("Updating periods from " + prevPeriod + " to " + activePeriod);
 
                 GetStatusUpdates();
                 GenerateStatusUpdates();
-                GetQuestions();
-                GenerateQuestions();
-                ClearChatBubbles();
-                //GenerateOptions();
-                InstantiateChatBubbles(possibleQuestions[0]);
+                UpdateEverything = true;
             }
 
             bool periodExists = false;
@@ -136,7 +129,6 @@ public class EventManager_B : MonoBehaviour
         if (generateFriendsDropdown && getCharacter_B.GetCharactersComplete)
         {
             GenerateFriendsListOptions();
-            GenerateQuestions();
             generateFriendsDropdown = false;
         }
 
@@ -174,7 +166,7 @@ public class EventManager_B : MonoBehaviour
 
     void GenerateFriendsListOptions()
     {
-        print("GenerateFriendsListOPtions");
+        DebugSplit2("GenerateFriendsListOPtions");
         friendsChat.ClearOptions();
 
         foreach (Character c in getCharacter_B.characters)
@@ -195,12 +187,10 @@ public class EventManager_B : MonoBehaviour
 
     public void GetQuestions()
     {
-        print("GetQuestions");
+        DebugSplit2("GetQuestions");
         activeCharacter = getCharacter_B.characters[friendsChat.value];
 
         int c = friendsChat.value;
-        //print("Fetching questions for " + getCharacter_B.characters[c].name);
-
 
         foreach (Period p in getCharacter_B.characters[c].periods)
         {
@@ -209,8 +199,6 @@ public class EventManager_B : MonoBehaviour
 
             if (int.Parse(periodIndex) == activePeriod)
             {
-                //foreach (Question q in p.questions)
-                //   print("Fetsching question " + q.Q);
                 possibleQuestions = p.questions;
             }
         }
@@ -222,71 +210,80 @@ public class EventManager_B : MonoBehaviour
 
     public void GenerateQuestions()
     {
-        print("GenerateQuestions");
+
+        DebugSplit2("GenerateQuestions");
         if (possibleQuestions.Count == 0)
         {
+            Debug2("Possible questions is empty");
             activeQuestion = null;
             answerSelect.ClearOptions();
         }
-
-        foreach (Question q in possibleQuestions)
+        else
         {
-            if (q.Q.Contains("+Q1 ") && q.answered != true) //Starting question.
+            foreach (Question q in possibleQuestions)
             {
-                GenerateOptions(q);
-                activeQuestion.send = true;
-                activeQuestion = q;
+                Debug2("Checking question " + q.Q + " | send: " + q.send + " | checkForAnswered: " + q.checkForAnswered + " | followThrough: " + q.followThrough + " | hasBeenAnswered: " + q.answered);
 
+                if (q.Q.Contains("+Q1 ") && q.answered != true) //Starting question.
+                {
+                    Debug3("!! Found '+Q1 ' in " + q.Q);
+                    activeQuestion = q;
+                    activeQuestion.send = true;
+
+                    Debug6("SET ACTIVE QUESTION TO " + q.Q);
+                    break;
+                }
+                else if (q.answered == false && q.send == true) {
+                    activeQuestion = q;
+                    activeQuestion.send = true;
+
+                    Debug6("SET ACTIVE QUESTION TO " + q.Q);
+
+                    if (q.followThrough != 666) {
+                        activeQuestion.answered = true;
+                        foreach (Question que in possibleQuestions) {
+                            if (que.Q.Contains("+Q" + activeQuestion.followThrough + " ")) {
+                                activeQuestion = que;
+                                activeQuestion.send = true;
+                                Debug6("SET ACTIVE QUESTION TO " + que.Q);
+                                GenerateQuestions();
+                                break;
+                            }
+                        }
+                    }
+
+                    break;
+                }
+                else
+                {
+                    Debug4("NOPE");
+                }
             }
-            else if (q.Q.Contains("+Q1 ") && q.answered == true)
-            {
-                //activeQuestion = possibleQuestions[0];
-            }
-
-            if (q.Q.Contains("+Q" + activeQuestion.followThrough + " ") && activeQuestion.answered && activeQuestion.followThrough != 666)
-            {
-                activeQuestion.answered = true;
-                activeQuestion.send = true;
-                activeQuestion = q;
-                q.send = true;
-                //activeQuestion.checkForAnswered = false;
-            }
-            else
-            {
-                GenerateOptions(q);
-            }
-
-            if (activeQuestion.checkForAnswered && activeQuestion.followThrough != 666)
-            {
-                //print("waiting on answer");
-                activeQuestion = q;
-
-                pastQuestions.Add(activeQuestion);
-                activeQuestion.answered = true;
-                activeQuestion.checkForAnswered = false;
-            }
-
-            GenerateOptions(q);
-
         }
-
         GenerateOptions(activeQuestion);
+
     }
 
     void GenerateOptions(Question q)
     {
-        print("GenerateOptions");
+        DebugSplit2("GenerateOptions");
         answerSelect.ClearOptions();
-        if (q.answers.Count > 0)
+        if (q != null)
         {
-            foreach (Answer a in q.answers)
-                answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
+            if (q.answers != null)
+            {
+                if (q.answers.Count > 0)
+                {
+                    foreach (Answer a in q.answers)
+                        answerSelect.options.Add(new Dropdown.OptionData { text = a.A });
+                }
+            }
         }
     }
 
     void ClearChatBubbles()
     {
-        print("ClearCHatBubbles");
+        DebugSplit("ClearCHatBubbles");
         foreach (GameObject cb in GameObject.FindGameObjectsWithTag("ChatBubble"))
         {
             Destroy(cb);
@@ -295,15 +292,13 @@ public class EventManager_B : MonoBehaviour
 
     public void SendButton()
     {
-        print("SendButton");
+        DebugSplit("SendButton");
         for (int a = 0; a < activeQuestion.answers.Count; a++)
         {
             if (answerSelect.value == a)
             {
-                //InstantiateChatBubbles(activeQuestion);
                 activeQuestion.answers[a].wasUsed = true;
                 activeQuestion.answered = true;
-                //activeQuestion = activeQuestion.answers[a].nextQuestion;
 
                 //Get the new question
                 foreach (Question q in possibleQuestions)
@@ -315,18 +310,16 @@ public class EventManager_B : MonoBehaviour
                         activeQuestion.send = true;
 
                         activeQuestion = q;
-
-                        GenerateQuestions();
-                        GenerateOptions(q);
+                        Debug6("Set ActiveQuestion to " + q.Q);
+                        GenerateOptions(activeQuestion);
                         break;
                     }
                 }
-
-                //GenerateQuestions();
             }
         }
 
-        GenerateQuestions();
+        GetQuestions();
+        GenerateOptions(activeQuestion);
 
         if (possibleQuestions.Count > 0)
             InstantiateChatBubbles(possibleQuestions[0]);
@@ -334,7 +327,7 @@ public class EventManager_B : MonoBehaviour
 
     void InstantiateChatBubbles(Question _question)
     {
-        print("InstantiateChatBubbles Q" + _question.Q);
+        Debug3("Instantiate Question" + _question.Q);
         //print("Instantiating" + q.Q + " from pastQuestions");
 
         GameObject chatBubble = Instantiate(questionBubblePrefab, transform.position, transform.rotation);
@@ -349,6 +342,8 @@ public class EventManager_B : MonoBehaviour
             foreach (Question que in possibleQuestions)
                 if (que.Q.Contains("+Q" + _question.followThrough + " "))
                 {
+                    activeQuestion = que;
+
                     InstantiateChatBubbles(que);
                     break;
                 }
@@ -363,7 +358,7 @@ public class EventManager_B : MonoBehaviour
                     foreach (Question que in possibleQuestions)
                         if (que.Q.Contains("+Q" + a.nextQuestion.ToString() + " "))
                         {
-                            //InstantiateChatBubbles(que, a.A);
+                            activeQuestion = que;
                             InstantiateChatBubbles(que);
                             break;
                         }
@@ -375,7 +370,7 @@ public class EventManager_B : MonoBehaviour
 
     void InstantiateAnswerbubble(Answer _answer)
     {
-        print("InstantiateAnswerBubble " + _answer.A);
+        Debug6("Instantiate Answer " + _answer.A);
         GameObject chatBubble = Instantiate(answerBubblePrefab, transform.position, transform.rotation);
         chatBubble.transform.SetParent(chatWindow.transform);
         chatBubble.transform.localScale = new Vector3(1, 1, 1);
@@ -392,7 +387,7 @@ public class EventManager_B : MonoBehaviour
 
     void GetStatusUpdates()
     {
-        print("GetStatusUpdates");
+        DebugSplit("GetStatusUpdates");
         statusUpdatesToShow.Clear();
         foreach (Character c in getCharacter_B.characters)
         {
@@ -501,5 +496,53 @@ public class EventManager_B : MonoBehaviour
         print("MoveBackPeriod");
         activePeriod--;
 
+    }
+
+    public void Debug1(string message)
+    {
+        if (debug)
+            print(message);
+    }
+
+    public void Debug2(string message)
+    {
+        if (debug)
+            print("     |--- " + message);
+    }
+
+    public void Debug3(string message)
+    {
+        if (debug)
+            print("             |--- " + message);
+    }
+
+    public void Debug4(string message)
+    {
+        if (debug)
+            print("                     |--- " + message);
+    }
+
+    public void Debug5(string message)
+    {
+        if (debug)
+            print("                             |--- " + message);
+    }
+
+    public void Debug6(string message)
+    {
+        if (debug)
+            print("                                       |--- " + message);
+    }
+
+    public void DebugSplit(string message)
+    {
+        if (debug)
+            print("-------------------------" + message + "--------------------------------");
+    }
+
+    public void DebugSplit2(string message)
+    {
+        if (debug)
+            print("==========" + message + "==============");
     }
 }

@@ -493,6 +493,8 @@ public class GetCharacters_B : MonoBehaviour
                                 if (subString.Contains("FollowThrough"))
                                 {
                                     followThroughValue = subString.Replace("FollowThrough_Q", "");
+                                    //followThroughValue = subString.Replace("FollowThrough Q", "");
+
                                     //Debug6(followThroughValue);
                                 }
 
