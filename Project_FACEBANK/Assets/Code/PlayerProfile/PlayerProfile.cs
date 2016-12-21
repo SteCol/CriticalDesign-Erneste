@@ -8,11 +8,15 @@ public class PlayerProfile : MonoBehaviour
 {
 
     [Header("General Info")]
-    public string name;
+    public string playerName;
     public string age;
     public Sprite profilePic;
-    public string value;
+    public float value;
     public string info;
+
+    [Header("Updates")]
+    public bool updateValue;
+    public bool addNewValue;
 
     [Header("controls")]
     public Dropdown profilePicChoice;
@@ -20,14 +24,15 @@ public class PlayerProfile : MonoBehaviour
     public InputField ageInput;
     //public Sprite profilePic;
     public Text valueText;
-    public List<int> values;
+    public List<float> values;
     public InputField infoInput;
     public List<Sprite> possibleProfilePics;
 
 
     void Start()
     {
-        value = Random.Range(70.0f, 130.0f).ToString();
+        value = Random.Range(70.0f, 130.0f);
+        AddValue(value);
         possibleProfilePics = GetComponent<GetCharacters_B>().profilePics;
 
         UpdateInfo();
@@ -40,18 +45,37 @@ public class PlayerProfile : MonoBehaviour
         if (GetComponent<GetCharacters_B>().GetCharactersComplete)
         {
             UpdateProfilePic();
-            if (name != nameInput.text || age != ageInput.text || info != infoInput.text)
+            if (playerName != nameInput.text || age != ageInput.text || info != infoInput.text)
             {
                 UpdateInfo();
             }
+        }
+
+        if (updateValue)
+        {
+            UpdateInfo();
+            updateValue = false;
+        }
+
+        if (addNewValue) {
+            AddValue(value);
+            updateValue = true;
+            addNewValue = false;
         }
     }
 
     void UpdateInfo()
     {
-        name = nameInput.text;
+        playerName = nameInput.text;
         age = ageInput.text;
         info = infoInput.text;
+
+        string valueString = "";
+        foreach (float v in values) {
+            valueString = valueString + " \n" + v.ToString("000.00");
+        }
+
+        valueText.text = valueString;
     }
 
     public void UpdateProfilePic()
@@ -65,8 +89,12 @@ public class PlayerProfile : MonoBehaviour
         }
     }
 
-    public void updateValue()
+    public void AddValue(float _value) {
+        values.Insert(0, _value);
+    }
+
+    public void UpdateValue()
     {
-        values.Insert(0, int.Parse(value));
+        values.Insert(0, value);
     }
 }

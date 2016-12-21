@@ -71,13 +71,13 @@ value: 72.6
 +Q6 you know what, fuck this [FollowThrough_Q7]
 +Q7 i dont need you [V-9.7]
 
-+Q8 thanks, but thats not true [FollowThrough [Q9]]
-+Q9 i appreciate the gesture though [FollowThrough [Q10]]
-+Q10 im going to take a nap now [FollowThrough [Q11]]
++Q8 thanks, but thats not true [FollowThrough_Q9]
++Q9 i appreciate the gesture though [FollowThrough_Q10]
++Q10 im going to take a nap now [FollowThrough_Q11]
 +Q11 bye
 
-+Q12 youre right... [FollowThrough [Q13]]
-+Q13 i will keep fighting! [FollowThrough [Q14]]
++Q12 youre right... [FollowThrough_Q13]
++Q13 i will keep fighting! [FollowThrough_Q14]
 +Q14 im going to keep looking!! talk to you later!
 
 [Period_3]
@@ -87,30 +87,30 @@ value: 72.6
 +A1.2 Sup? [Q2]
 +A1.3 I'm busy right now. [Q4]
 
-+Q2 ive decided to keep looking for a job! [FollowThrough [Q3]]
++Q2 ive decided to keep looking for a job! [FollowThrough_Q3]
 +Q3 you dont happen to know of any job openings??
 
 +A3.1 I heard Lolly is starting her own business... Maybe she's looking for some people? [Q6]
 +A3.2 Lola just quit her old job at a vegan shop. I know Nina, the owner. I could put in a good word for you if you want. [Q11]
 +A3.3 I saw this ad looking for a butcher. [Q14]
 
-+Q6 oh... yeah... [FollowThrough [Q7]]
-+Q7 lolly and i dont get along too wel... [FollowThrough [Q8]]
-+Q8 thx for the suggestion tho! [FollowThrough [Q9]]
-+Q9 im going to keep looking [FollowThrough [Q10]]
++Q6 oh... yeah... [FollowThrough_Q7]
++Q7 lolly and i dont get along too wel... [FollowThrough_Q8]
++Q8 thx for the suggestion tho! [FollowThrough_Q9]
++Q9 im going to keep looking [FollowThrough_Q10]
 +Q10 talk to you later!
 
-+Q11 oh!! that would be awesome!!!! [FollowThrough [Q12]]
-+Q12 im going to contact her asap!!! [FollowThrough [Q13]]
++Q11 oh!! that would be awesome!!!! [FollowThrough_Q12]
++Q12 im going to contact her asap!!! [FollowThrough_Q13]
 +Q13 thanks so much!! youre the best!!!!!
 
-+Q14 dude you know im vegan right?? [FollowThrough [Q15]]
-+Q15 not cool [FollowThrough [Q16]]
-+Q16 totally not cool [FollowThrough [Q17]]
-+Q17 i have to blow off steam now [FollowThrough [Q18]]
++Q14 dude you know im vegan right?? [FollowThrough_Q15]
++Q15 not cool [FollowThrough_Q16]
++Q16 totally not cool [FollowThrough_Q17]
++Q17 i have to blow off steam now [FollowThrough_Q18]
 +Q18 bye
 
-+Q4 oh... okay [FollowThrough [Q5]]
++Q4 oh... okay [FollowThrough_Q5]
 +Q5 bye i guess :-(
 
 [StatusUpdates]

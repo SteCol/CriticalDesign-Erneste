@@ -99,12 +99,13 @@ public class EventManager_B : MonoBehaviour
     {
         if (prevPeriod != activePeriod)
         {
+            GetStatusUpdates();
+            GenerateStatusUpdates();
             if (possibleQuestions.Count > 0)
             {
                 DebugSplit2("Updating periods from " + prevPeriod + " to " + activePeriod);
 
-                GetStatusUpdates();
-                GenerateStatusUpdates();
+                
                 UpdateEverything = true;
             }
 
@@ -121,7 +122,6 @@ public class EventManager_B : MonoBehaviour
 
             if (!periodExists)
                 possibleQuestions = new List<Question>();
-
 
             prevPeriod = activePeriod;
         }
@@ -292,6 +292,9 @@ public class EventManager_B : MonoBehaviour
 
     public void SendButton()
     {
+
+        //doTheValueStuff.
+
         DebugSplit("SendButton");
         for (int a = 0; a < activeQuestion.answers.Count; a++)
         {
