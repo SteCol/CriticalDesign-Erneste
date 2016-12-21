@@ -48,6 +48,7 @@ public class EventManager_B : MonoBehaviour
     [Header("Notifications")]
     public GridLayoutGroup feed;
     public GameObject statusUpdatePrefab;
+    public GameObject selfiePrefab;
     public GameObject commentPrefab;
     public List<StatusUpdate> statusUpdatesToShow;
 
@@ -541,7 +542,17 @@ public class EventManager_B : MonoBehaviour
                     {
                         if (suts.content == su.content)
                         {
-                            GameObject statusUpdate = (GameObject)Instantiate(statusUpdatePrefab, feed.transform.position, feed.transform.rotation);
+
+                            GameObject statusUpdate = new GameObject();
+                            if (suts.selfie != null)
+                            {
+                                statusUpdate = (GameObject)Instantiate(selfiePrefab, feed.transform.position, feed.transform.rotation);
+                                statusUpdate.GetComponent<SUScript>().selfie.sprite = su.selfie;
+
+                            }
+                            else {
+                                statusUpdate = (GameObject)Instantiate(statusUpdatePrefab, feed.transform.position, feed.transform.rotation);
+                            }
                             statusUpdate.transform.SetParent(feed.transform);
                             statusUpdate.name = su.content;
 

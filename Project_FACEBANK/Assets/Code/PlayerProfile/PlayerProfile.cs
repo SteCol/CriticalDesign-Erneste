@@ -80,13 +80,13 @@ public class PlayerProfile : MonoBehaviour
 
     public void UpdateProfilePic()
     {
-        profilePicChoice.options.Clear();
-        profilePicChoice.AddOptions(possibleProfilePics);
+        //profilePicChoice.options.Clear();
+        //profilePicChoice.AddOptions(possibleProfilePics);
 
-        for (int s = 0; s < possibleProfilePics.Count; s++)
-        {
-            profilePic = possibleProfilePics[profilePicChoice.value];
-        }
+        //for (int s = 0; s < possibleProfilePics.Count; s++)
+        //{
+        //    profilePic = possibleProfilePics[profilePicChoice.value];
+        //}
     }
 
     public void AddValue(float _value) {

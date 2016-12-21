@@ -10,5 +10,6 @@ public class SUScript : MonoBehaviour {
     public Text _content;
     public Image _profilePic;
     public GridLayoutGroup _commentSection;
+    public Image selfie;
 
 }

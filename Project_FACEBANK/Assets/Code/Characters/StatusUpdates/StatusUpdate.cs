@@ -7,6 +7,7 @@ public class StatusUpdate {
 
     public string content;
     public List<Comment> comments = new List<Comment>();
+    public Sprite selfie;
 
     public StatusUpdate(string _content)
     {
