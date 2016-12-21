@@ -43,8 +43,7 @@ value: 72.6
 +Q12 fine, ill do fine without your support [FollowThrough_Q13]
 +Q13 bye [V-5.3]
 
-+Q9 P1_Q9
-+A9.1 Bye!
++Q9 yeah... youre right [FollowThrough_Q15]
 
 +Q14 i guess you're right... i have to make sure i look my best [FollowThrough_Q15]
 +Q15 thank u for being honest [FollowThrough_Q16]

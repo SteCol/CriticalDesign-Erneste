@@ -13,9 +13,46 @@ value: 83.7
 
 +Q1 hey... u got some time to talk? >.<
 
-+A1.1 Yeah, sure. What's up?
-+A1.2
++A1.1 Yeah, sure. What's up? [Q2]
++A1.2 Kinda busy right now
+
++Q2 i've been thinking about starting my own business...
+
++A2.1 Oh, that's great! [Q3]
++A2.2 What about your current job? [Q4]
++A2.3 Do you really think that's a good idea?
+
++Q3 thank u! ^///^ [FollowThrough_Q4]
++Q4 i'd have to quit my job, ofc [FollowThrough_Q5]
++Q5 i really like nina, so i'd feel really bad ;^;
+
++A5.1 Then don't do it? [Q6]
++A5.2 I'm sure she'd understand. [Q7]
++A5.3 It's not like she really needs you anyway.
+
++Q6 but i want tooooo!!! TToTT
+
++A6.1 Don't be such a brat.
++A6.2 What's this business about anyway? [Q9]
+
++Q7 yeah, probably. she's too nice <3 [FollowThrough_Q8]
++Q8 let me tell u more about my business idea though [FollowThrough_Q9]
++Q9 i want to start... [FollowThrough_Q10]
++Q10 ... wait for it.... 
++Q11 drumroll please!
+
++A11.1 Cut the crap, Lolly.
++A11.2 *drumrolls*
++A11.3 Get it over with already... -_-
+
++Q12 a candy shop!
+
++A12.1 What?
++A12.2 Whaaaat?!
++A12.3 WHAAAAATTT?!?!
 
 [StatusUpdates]
 [Period_1]
-+SU another day at the job... hurray x.x
++SU another day at the job... hurray x.o
+
++SU love my girl nina though <3333
