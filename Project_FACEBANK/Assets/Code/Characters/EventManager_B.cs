@@ -626,6 +626,7 @@ public class EventManager_B : MonoBehaviour
                                     }
                                     else
                                     {
+                                        /*
                                         foreach (Sprite pic in getCharacter_B.profilePics)
                                         {
                                             if (pic.name.Contains("Missing"))
@@ -634,6 +635,7 @@ public class EventManager_B : MonoBehaviour
                                                 break;
                                             }
                                         }
+                                        */
                                     }
                                 }
                                 comment.transform.localScale = new Vector3(1, 1, 1);
