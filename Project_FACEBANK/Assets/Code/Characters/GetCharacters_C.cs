@@ -410,13 +410,13 @@ public class GetCharacters_C : MonoBehaviour
 
                         //Get name
                         Debug6(line[l]);
-                        string name = line[l];
-                        name = line[l].Replace("[", "");
-                        name = name.Replace("]", "");
+                        string pname = line[l];
+                        pname = line[l].Replace("[", "");
+                        pname = pname.Replace("]", "");
 
                         //Get int
                         string[] strArr = line[l].Split('_');
-                        string num = name.Replace("Period", "");
+                        string num = pname.Replace("Period", "");
                         num = num.Replace("_", "");
 
                         //Check if period already exists
@@ -425,11 +425,11 @@ public class GetCharacters_C : MonoBehaviour
 
                         foreach (Period p in characters[c].periods)
                         {
-                            Debug6("Comparing " + name + " to " + p.codeName);
+                            Debug6("Comparing " + pname + " to " + p.codeName);
 
-                            if (p.codeName == name)
+                            if (p.codeName == pname)
                             {
-                                Debug6("Period with name '" + name + "' already exists");
+                                Debug6("Period with name '" + pname + "' already exists");
                                 periodFound = true;
                                 Debug6("Changing " + p.codeName + "'s lineIndex from " + p.periodLineIndex + " to " + l);
                                 p.periodLineIndex = l;
@@ -440,9 +440,9 @@ public class GetCharacters_C : MonoBehaviour
 
                         if (periodFound == false) //If not, add the period and add the statusUpdates
                         {
-                            Debug6("Adding period '" + name + "'.");
+                            Debug6("Adding period '" + pname + "'.");
 
-                            characters[c].periods.Add(new Period(name, int.Parse(num), l));
+                            characters[c].periods.Add(new Period(pname, int.Parse(num), l));
                         }
                     }
 

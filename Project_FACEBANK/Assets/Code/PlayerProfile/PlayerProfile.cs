@@ -23,6 +23,7 @@ public class PlayerProfile : MonoBehaviour
     public InputField nameInput;
     public InputField ageInput;
     //public Sprite profilePic;
+    public Text valueHeadText;
     public Text valueText;
     public List<float> values;
     public InputField infoInput;
@@ -72,8 +73,10 @@ public class PlayerProfile : MonoBehaviour
 
         string valueString = "";
         foreach (float v in values) {
-            valueString = valueString + " \n" + v.ToString("000.00");
+            valueString = valueString + " \n" + v.ToString(".00");
         }
+
+        valueHeadText.text = "Value :" + value.ToString(".00");
 
         valueText.text = valueString;
     }
@@ -87,6 +90,8 @@ public class PlayerProfile : MonoBehaviour
         //{
         //    profilePic = possibleProfilePics[profilePicChoice.value];
         //}
+
+        profilePic = profilePicChoice.captionImage.sprite;
     }
 
     public void AddValue(float _value) {

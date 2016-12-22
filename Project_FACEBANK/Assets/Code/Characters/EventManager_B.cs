@@ -73,6 +73,8 @@ public class EventManager_B : MonoBehaviour
 
         if (UpdateEverything == true)
         {
+            //GenerateFriendsListOptions(activePeriod);
+
             GetQuestions();
             GenerateQuestions();
 
@@ -106,11 +108,13 @@ public class EventManager_B : MonoBehaviour
         {
             GetStatusUpdates();
             GenerateStatusUpdates();
+            GenerateFriendsListOptions();
+
             if (possibleQuestions.Count > 0)
             {
                 DebugSplit2("Updating periods from " + prevPeriod + " to " + activePeriod);
 
-                
+
                 UpdateEverything = true;
             }
 
@@ -177,10 +181,17 @@ public class EventManager_B : MonoBehaviour
         foreach (Character c in getCharacter_B.characters)
         {
             //Generate an option to chat with each character.
+
+            bool hasbeengenerated = false;
+            foreach (Period p in c.periods) {
+                if (hasbeengenerated == false) {
+                   
+                }
+            }
             string newName = c.name.Replace("name: ", "");
 
-
             friendsChat.options.Add(new Dropdown.OptionData() { image = c.profilePic, text = newName });
+            hasbeengenerated = true;
         }
 
         GetQuestions();
@@ -327,8 +338,6 @@ public class EventManager_B : MonoBehaviour
 
     public void SendButton()
     {
-
-        
         DebugSplit("SendButton");
         for (int a = 0; a < activeQuestion.answers.Count; a++)
         {
