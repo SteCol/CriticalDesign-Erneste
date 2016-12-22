@@ -12,8 +12,8 @@ value: 72.6
 [Period_1]
 +Q1 did you see my post? how do i look?
 
-+A1.1 Lookin' good, buddy! [Q2] [V+ 2.3]
-+A1.2 You might want to change your tie to something more formal? [Q3] [V- 0.5]
++A1.1 Lookin' good, buddy! [Q2] [V+2.3]
++A1.2 You might want to change your tie to something more formal? [Q3] [V-0.5]
 +A1.3 Err... Yeah... Sure. [Q4]
 
 +Q2 thanks! i'm feeling really confident about this one!!!
@@ -33,10 +33,10 @@ value: 72.6
 +Q6 bye [V-4.3]
 
 +Q7 yessss! i will!! thank you!!! [FollowThrough_Q8]
-+Q8 i gotta go now! wish me luck! [V+ 3.6]
++Q8 i gotta go now! wish me luck! [V+3.6]
 	
-+A8.1 Good luck! :) [V+ 4.1]
-+A8.2 Bye [V+ 1.2]
++A8.1 Good luck! :) [V+4.1]
++A8.2 Bye [V+1.2]
 
 +Q10 wow, thats a rude thing to say [FollowThrough_Q11]
 +Q11 i didn't expect this from you [FollowThrough_Q12]
@@ -49,13 +49,13 @@ value: 72.6
 +Q15 thank u for being honest [FollowThrough_Q16]
 +Q16 i really appreciate it [FollowThrough_Q17]
 +Q17 thanks for being a friend :-) [FollowThrough_Q18]
-+Q18 gotta go now! thanks again! [V+ 9.3]
++Q18 gotta go now! thanks again! [V+9.3]
 
 [Period_2]
 +Q1 job interview didnt go well :-(
 
-+A1.1 Ah man, that sucks! So sorry :( [Q2] [V+ 0.5]
-+A1.2 Better luck next time! [Q2] [V+ 1.3]
++A1.1 Ah man, that sucks! So sorry :( [Q2] [V+0.5]
++A1.2 Better luck next time! [Q2] [V+1.3]
 +A1.3 Well, what did you honestly expect? [Q4]
 
 +Q2 thanks [FollowThrough_Q3]
@@ -73,16 +73,16 @@ value: 72.6
 +Q8 thanks, but thats not true [FollowThrough_Q9]
 +Q9 i appreciate the gesture though [FollowThrough_Q10]
 +Q10 im going to take a nap now [FollowThrough_Q11]
-+Q11 bye [V+ 1.7]
++Q11 bye [V+1.7]
 
 +Q12 youre right... [FollowThrough_Q13]
 +Q13 i will keep fighting! [FollowThrough_Q14]
-+Q14 im going to keep looking!! talk to you later! [V+ 4.0]
++Q14 im going to keep looking!! talk to you later! [V+4.0]
 
 [Period_3]
 +Q1 hi!!!
 
-+A1.1 Hey! What's with the good mood? :) [Q2] [V+ 1.6]
++A1.1 Hey! What's with the good mood? :) [Q2] [V+1.6]
 +A1.2 Sup? [Q2]
 +A1.3 I'm busy right now. [Q4]
 
@@ -97,32 +97,38 @@ value: 72.6
 +Q7 lolly and i dont get along too wel... [FollowThrough_Q8]
 +Q8 thx for the suggestion tho! [FollowThrough_Q9]
 +Q9 im going to keep looking [FollowThrough_Q10]
-+Q10 talk to you later! [V+ 0.1]
++Q10 talk to you later! [V+0.1]
 
 +Q11 oh!! that would be awesome!!!! [FollowThrough_Q12]
 +Q12 im going to contact her asap!!! [FollowThrough_Q13]
-+Q13 thanks so much!! youre the best!!!!! [V+ 9.7]
++Q13 thanks so much!! youre the best!!!!! [V+9.7]
 
 +Q14 dude you know im vegan right?? [FollowThrough_Q15]
 +Q15 not cool [FollowThrough_Q16]
 +Q16 totally not cool [FollowThrough_Q17]
 +Q17 i have to blow off steam now [FollowThrough_Q18]
-+Q18 bye [V- 6.2]
++Q18 bye [V-6.2]
 
 +Q4 oh... okay [FollowThrough_Q5]
-+Q5 bye i guess :-( [V- 3.8]
++Q5 bye i guess :-( [V-3.8]
 
 [StatusUpdates]
 [Period_1]
 +SU getting ready for my next job interview! [Selfie_Joseph01]
++C1.1 [Sam] Looking good, my man!
++C1.2 [Lolly] u look like a fucking loser dude
 
 [Period_2]
 +SU didnt get the job :-(
++C1.1 [Sam] Sorry to hear that, dude. Better luck next time!
++c1.2 [Lolly] told ya
 
 +SU at least i have some comfort vegan food to cheer me up!
 
 [Period_3]
 +SU anyone know of any job applications??
++C1.1 [Sam] Not that I know of, sorry man :(
 
 [Period_4]
 +SU love my new job!!! - with Nina
++C1.1 [Nina] So glad to have you!

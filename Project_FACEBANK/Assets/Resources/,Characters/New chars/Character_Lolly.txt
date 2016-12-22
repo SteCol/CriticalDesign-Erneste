@@ -18,7 +18,7 @@ value: 83.7
 
 +Q2 i've been thinking about starting my own business...
 
-+A2.1 Oh, that's great! [Q3] [V+ 2.4]
++A2.1 Oh, that's great! [Q3] [V+2.4]
 +A2.2 What about your current job? [Q4]
 +A2.3 Do you really think that's a good idea?
 
@@ -41,9 +41,9 @@ value: 83.7
 +Q10 ... wait for it.... [FollowThrough_Q11]
 +Q11 drumroll please!
 
-+A11.1 Cut the crap, Lolly. [Q12] [V- 3.1]
-+A11.2 *drumrolls* [Q12] [V+ 1.3]
-+A11.3 Get it over with already... -_- [Q12] [V- 0.5]
++A11.1 Cut the crap, Lolly. [Q12] [V-3.1]
++A11.2 *drumrolls* [Q12] [V+1.3]
++A11.3 Get it over with already... -_- [Q12] [V-0.5]
 
 +Q12 a candy shop!
 
@@ -62,27 +62,34 @@ value: 83.7
 +Q16 thank u!!! [FollowThrough_Q17]
 +Q17 i'm going to talk to nina [FollowThrough_Q18]
 +Q18 thx for being awesum ^o^ [FollowThrough_Q19]
-+Q19 cya! [V+ 9.5]
++Q19 cya! [V+9.5]
 
 +Q20 i have thought this thru, i promise [FollowThrough_Q21]
 +Q21 i gotta go now, i'm going to talk to nina [FollowThrough_Q22]
-+Q22 cya! [V+ 1.1]
++Q22 cya! [V+1.1]
 
 +Q23 oh... okay [FollowThrough_Q24]
-+Q24 talk to you later then [V- 2.5]
++Q24 talk to you later then [V-2.5]
 
 +Q25 oh wow [FollowThrough_Q26]
 +Q26 you're such a jerk [FollowThrough_Q27]
 +Q27 i thought i could count on your support [FollowThrough_Q28]
 +Q28 i guess i was wrong [FollowThrough_Q29]
 +Q29 bye [FollowThrough_Q30]
-+Q30 asshole [V- 10.2]
++Q30 asshole [V-10.2]
 
 [StatusUpdates]
 [Period_1]
 +SU another day at the job... hurray x.o
++C1.1 [Nina] Hey, be more excited! :)
 
 +SU love my girl nina though <3333
++C1.1 [Nina] <3
++C1.2 [Brook] hey! what about me?
++C1.3 [Lolly] love u too brooky :3 <3
 
 [Period_2]
 +SU i have decided to quit my job and start my own business as a candy shop owner, wish me luck!!! <3
++C1.1 [Nina] I'm going to miss you, but I wish you the best of luck!
++C1.2 [Brook] you're going to do AWESOME!
++C1.3 [Lolly] thank u all c:

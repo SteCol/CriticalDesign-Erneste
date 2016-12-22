@@ -13,12 +13,16 @@ value: 133.9
 [StatusUpdates]
 [Period_1]
 +SU Another day at the shop with best, one-and-only employee! - with Lolly [Selfie_Nina-Lolly01]
++C1.1 [Lolly] :3
 
 [Period_2]
 +SU Lolly has decided to quit her job at my store to start her own business. Sad to see her go, but I wish her the best of luck <3
++C1.1 [Lolly] i love u <3
++C1.2 [Nina] I love you too, dear <3
 
 [Period_3]
 +SU Currently looking for a new employee! Feel free to recommend me some capable people :)
 
 [Period_4]
 +SU Say hi to Joseph, our new employee!
++c1.1 [Joseph] thank you for having me!!!
